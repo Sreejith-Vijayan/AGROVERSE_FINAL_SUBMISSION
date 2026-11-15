@@ -10,6 +10,11 @@ import datetime as dt, json, os, time, urllib.request
 import numpy as np, pandas as pd
 
 CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cache")
+# In serverless environments (e.g. Vercel), the project directory is read-only.
+# We fallback to /tmp/cache if the project directory is not writable.
+if not os.access(os.path.dirname(os.path.abspath(__file__)), os.W_OK):
+    CACHE_DIR = os.path.join("/tmp", "agroverse_cache")
+
 START = "19900101"
 
 
@@ -18,7 +23,7 @@ def _fetch_power(lat, lon):
     url = ("https://power.larc.nasa.gov/api/temporal/daily/point"
            "?parameters=PRECTOTCORR,T2M_MAX,T2M,GWETROOT&community=AG"
            f"&longitude={lon}&latitude={lat}&start={START}&end={end}&format=JSON")
-    with urllib.request.urlopen(url, timeout=60) as r:
+    with urllib.request.urlopen(url, timeout=10) as r:
         j = json.load(r)
     return _parse_power(j)
 
@@ -69,13 +74,19 @@ def get_series(lat, lon):
 
 def _get_series(lat, lon):
     """Returns (DataFrame, source) with source in {'nasa_power', 'demo'}."""
-    os.makedirs(CACHE_DIR, exist_ok=True)
+    try:
+        os.makedirs(CACHE_DIR, exist_ok=True)
+    except Exception:
+        pass
     f = os.path.join(CACHE_DIR, f"power_{lat:.3f}_{lon:.3f}.csv")
     if os.path.exists(f) and time.time() - os.path.getmtime(f) < 7 * 86400:
         return pd.read_csv(f, index_col=0, parse_dates=True), "nasa_power"
     try:
         df = _fetch_power(lat, lon)
-        df.to_csv(f)
+        try:
+            df.to_csv(f)
+        except Exception:
+            pass
         return df, "nasa_power"
     except Exception as e:                      # offline, blocked, API change ...
         print("NASA POWER unavailable, using demo data:", e)
