@@ -1,0 +1,25 @@
+year,season,rainfall_total_mm,temperature_avg_c,relative_humidity_pct,rainy_days_count,heavy_rain_days_count
+2020,Winter,10.78,24.4,74.3,1,0
+2020,Summer / Pre-monsoon,182.97,27.96,69.3,23,0
+2020,Southwest Monsoon,1050.68,23.56,89.8,99,0
+2020,Post-Monsoon,559.1,22.79,88.7,45,2
+2021,Winter,139.2,22.48,82.1,15,0
+2021,Summer / Pre-monsoon,376.59,26.11,75.4,40,0
+2021,Southwest Monsoon,894.52,23.52,90.0,93,0
+2021,Post-Monsoon,706.16,22.76,91.4,59,0
+2022,Winter,27.43,23.4,78.5,3,0
+2022,Summer / Pre-monsoon,455.21,26.01,77.8,46,0
+2022,Southwest Monsoon,1076.06,23.24,91.2,88,0
+2022,Post-Monsoon,477.12,22.71,89.3,42,0
+2023,Winter,19.64,22.54,77.1,4,0
+2023,Summer / Pre-monsoon,251.5,26.77,72.9,29,0
+2023,Southwest Monsoon,718.27,24.19,85.0,75,0
+2023,Post-Monsoon,592.76,23.52,90.2,49,0
+2024,Winter,45.4,23.75,78.7,4,0
+2024,Summer / Pre-monsoon,353.62,28.53,69.0,26,0
+2024,Southwest Monsoon,880.21,23.81,91.1,93,0
+2024,Post-Monsoon,524.94,23.44,88.8,44,0
+2025,Winter,19.05,23.03,76.8,2,0
+2025,Summer / Pre-monsoon,486.47,26.53,76.7,45,0
+2025,Southwest Monsoon,783.18,23.83,89.6,93,0
+2025,Post-Monsoon,378.83,22.93,86.6,35,0

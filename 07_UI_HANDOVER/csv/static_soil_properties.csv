@@ -1,0 +1,4 @@
+name,key,value,unit,status,description
+Clay content,clay_content_pct,28.4,%,PROVISIONAL,Sub-surface clay content estimate (0-30 cm)
+Soil pH,soil_ph,6.35,pH scale (0-14),PROVISIONAL,Soil acidity level (moderately acidic)
+Soil organic carbon (SOC),soil_organic_carbon_pct,0.78,%,PROVISIONAL,Organic carbon in topsoil fraction

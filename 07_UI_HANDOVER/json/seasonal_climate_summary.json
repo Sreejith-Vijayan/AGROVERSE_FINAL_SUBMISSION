@@ -1,0 +1,227 @@
+{
+  "meta": {
+    "location": "Palakkad Town, Kerala, India",
+    "latitude": 10.7867,
+    "longitude": 76.6548,
+    "records": 24,
+    "data_provenance": "Rainfall and temperature derived from NASA POWER. Relative humidity is SIMULATED (see monthly_climate_smap.json for field-level simulation notice)."
+  },
+  "data": [
+    {
+      "year": 2020,
+      "season": "Winter",
+      "rainfall_total_mm": 10.78,
+      "temperature_avg_c": 24.4,
+      "relative_humidity_pct": 74.3,
+      "rainy_days_count": 1,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2020,
+      "season": "Summer / Pre-monsoon",
+      "rainfall_total_mm": 182.97,
+      "temperature_avg_c": 27.96,
+      "relative_humidity_pct": 69.3,
+      "rainy_days_count": 23,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2020,
+      "season": "Southwest Monsoon",
+      "rainfall_total_mm": 1050.68,
+      "temperature_avg_c": 23.56,
+      "relative_humidity_pct": 89.8,
+      "rainy_days_count": 99,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2020,
+      "season": "Post-Monsoon",
+      "rainfall_total_mm": 559.1,
+      "temperature_avg_c": 22.79,
+      "relative_humidity_pct": 88.7,
+      "rainy_days_count": 45,
+      "heavy_rain_days_count": 2
+    },
+    {
+      "year": 2021,
+      "season": "Winter",
+      "rainfall_total_mm": 139.2,
+      "temperature_avg_c": 22.48,
+      "relative_humidity_pct": 82.1,
+      "rainy_days_count": 15,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2021,
+      "season": "Summer / Pre-monsoon",
+      "rainfall_total_mm": 376.59,
+      "temperature_avg_c": 26.11,
+      "relative_humidity_pct": 75.4,
+      "rainy_days_count": 40,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2021,
+      "season": "Southwest Monsoon",
+      "rainfall_total_mm": 894.52,
+      "temperature_avg_c": 23.52,
+      "relative_humidity_pct": 90.0,
+      "rainy_days_count": 93,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2021,
+      "season": "Post-Monsoon",
+      "rainfall_total_mm": 706.16,
+      "temperature_avg_c": 22.76,
+      "relative_humidity_pct": 91.4,
+      "rainy_days_count": 59,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2022,
+      "season": "Winter",
+      "rainfall_total_mm": 27.43,
+      "temperature_avg_c": 23.4,
+      "relative_humidity_pct": 78.5,
+      "rainy_days_count": 3,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2022,
+      "season": "Summer / Pre-monsoon",
+      "rainfall_total_mm": 455.21,
+      "temperature_avg_c": 26.01,
+      "relative_humidity_pct": 77.8,
+      "rainy_days_count": 46,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2022,
+      "season": "Southwest Monsoon",
+      "rainfall_total_mm": 1076.06,
+      "temperature_avg_c": 23.24,
+      "relative_humidity_pct": 91.2,
+      "rainy_days_count": 88,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2022,
+      "season": "Post-Monsoon",
+      "rainfall_total_mm": 477.12,
+      "temperature_avg_c": 22.71,
+      "relative_humidity_pct": 89.3,
+      "rainy_days_count": 42,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2023,
+      "season": "Winter",
+      "rainfall_total_mm": 19.64,
+      "temperature_avg_c": 22.54,
+      "relative_humidity_pct": 77.1,
+      "rainy_days_count": 4,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2023,
+      "season": "Summer / Pre-monsoon",
+      "rainfall_total_mm": 251.5,
+      "temperature_avg_c": 26.77,
+      "relative_humidity_pct": 72.9,
+      "rainy_days_count": 29,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2023,
+      "season": "Southwest Monsoon",
+      "rainfall_total_mm": 718.27,
+      "temperature_avg_c": 24.19,
+      "relative_humidity_pct": 85.0,
+      "rainy_days_count": 75,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2023,
+      "season": "Post-Monsoon",
+      "rainfall_total_mm": 592.76,
+      "temperature_avg_c": 23.52,
+      "relative_humidity_pct": 90.2,
+      "rainy_days_count": 49,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2024,
+      "season": "Winter",
+      "rainfall_total_mm": 45.4,
+      "temperature_avg_c": 23.75,
+      "relative_humidity_pct": 78.7,
+      "rainy_days_count": 4,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2024,
+      "season": "Summer / Pre-monsoon",
+      "rainfall_total_mm": 353.62,
+      "temperature_avg_c": 28.53,
+      "relative_humidity_pct": 69.0,
+      "rainy_days_count": 26,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2024,
+      "season": "Southwest Monsoon",
+      "rainfall_total_mm": 880.21,
+      "temperature_avg_c": 23.81,
+      "relative_humidity_pct": 91.1,
+      "rainy_days_count": 93,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2024,
+      "season": "Post-Monsoon",
+      "rainfall_total_mm": 524.94,
+      "temperature_avg_c": 23.44,
+      "relative_humidity_pct": 88.8,
+      "rainy_days_count": 44,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2025,
+      "season": "Winter",
+      "rainfall_total_mm": 19.05,
+      "temperature_avg_c": 23.03,
+      "relative_humidity_pct": 76.8,
+      "rainy_days_count": 2,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2025,
+      "season": "Summer / Pre-monsoon",
+      "rainfall_total_mm": 486.47,
+      "temperature_avg_c": 26.53,
+      "relative_humidity_pct": 76.7,
+      "rainy_days_count": 45,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2025,
+      "season": "Southwest Monsoon",
+      "rainfall_total_mm": 783.18,
+      "temperature_avg_c": 23.83,
+      "relative_humidity_pct": 89.6,
+      "rainy_days_count": 93,
+      "heavy_rain_days_count": 0
+    },
+    {
+      "year": 2025,
+      "season": "Post-Monsoon",
+      "rainfall_total_mm": 378.83,
+      "temperature_avg_c": 22.93,
+      "relative_humidity_pct": 86.6,
+      "rainy_days_count": 35,
+      "heavy_rain_days_count": 0
+    }
+  ]
+}

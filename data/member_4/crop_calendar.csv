@@ -1,0 +1,9 @@
+crop_id,region,season_or_pattern,sowing_start,sowing_end,harvest_start,harvest_end,source_to_verify,verification_status
+rice,Palakkad,Virippu,April,May,September,October,"KAU Package of Practices (2016), p. 23 / IMD Crop Weather Calendar Kerala",verified
+rice,Palakkad,Mundakan,September,October,December,January,"KAU Package of Practices (2016), p. 23 / IMD Crop Weather Calendar Kerala",verified
+rice,Palakkad,Puncha,December,January,March,April,"KAU Package of Practices (2016), p. 23 / IMD Crop Weather Calendar Kerala",verified
+groundnut,Palakkad,Rabi / Seasonal,October,November,January,February,"KAU Package of Practices (2016), p. 112 / KAU Palakkad Contingency Plan",verified
+banana,Palakkad,Variety-dependent / Nendran,May,June,February,March,"KAU Package of Practices (2016), p. 208 (May-June / Sep-Oct planting)",verified
+coconut,Palakkad,Perennial,May,June,Year-round,Year-round,"KAU Package of Practices (2016), p. 96 / ICAR-CPCRI guidelines",verified
+tapioca,Palakkad,Rainfed / Irrigated,April,May,January,February,KAU Package of Practices (2016) / ICAR-CTCRI guidelines (9-10 months duration),verified
+sugarcane,Palakkad,Long-duration,December,January,November,December,"KAU Package of Practices (2016), p. 93",verified

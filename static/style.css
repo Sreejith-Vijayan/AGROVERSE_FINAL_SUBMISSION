@@ -1,0 +1,231 @@
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--g:#2f6b45;--gd:#1f4d33;--bg:#f3f6f4;--line:#dfe6e2;--tx:#1d2b24;--mu:#667a70;--border-r:11px}
+body{font-family:"Inter","Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--tx);font-size:13px;line-height:1.45}
+.app{display:grid;grid-template-columns:190px 1fr;min-height:100vh}
+
+/* sidebar */
+.side{background:linear-gradient(180deg,#1f5a3a 0%,#1b4d32 55%,#173f2a 100%);color:#e8f2ec;display:flex;flex-direction:column;position:relative;overflow:hidden;z-index:900}
+.brand{padding:18px 14px 14px}
+.brand .logo{display:flex;align-items:center;gap:8px}
+.brand b{font-size:19px;letter-spacing:.5px;color:#fff;font-weight:800}
+.brand small{display:block;font-size:10px;color:#bcd6c6;margin-top:2px}
+.nav{margin-top:8px}
+.nav a{display:flex;align-items:center;gap:10px;padding:11px 14px;color:#d6e8dd;text-decoration:none;font-size:12px;border-left:3px solid transparent;transition:all .15s}
+.nav a.on{background:rgba(255,255,255,.14);color:#fff;font-weight:600;border-left-color:#7ff5d8}
+.nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.field{margin-top:auto;height:210px;position:relative;
+ background:linear-gradient(180deg,rgba(23,63,42,0) 0%,rgba(23,63,42,.3) 45%,rgba(20,50,30,.75) 100%),
+ radial-gradient(ellipse at 20% 105%,#6fa23a 0 40%,transparent 41%),
+ radial-gradient(ellipse at 90% 110%,#4f8a2e 0 45%,transparent 46%),
+ linear-gradient(180deg,#a9c9c0 0%,#8cb59c 40%,#5c9a4a 70%,#3f7a35 100%)}
+.field .palms{position:absolute;bottom:85px;left:0;right:0;height:55px;display:flex;justify-content:space-around;align-items:flex-end;padding:0 6px}
+.field .palms i{display:block;width:3px;background:#1c3b22;border-radius:2px}
+.field p{position:absolute;bottom:14px;left:12px;color:#fff;font-size:11px;line-height:1.35;font-weight:500}
+
+/* main layout */
+.main{display:flex;flex-direction:column;min-width:0}
+.top{background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:16px;padding:10px 20px;position:sticky;top:0;z-index:800}
+.mobile-menu-btn{display:none;background:none;border:0;cursor:pointer;padding:4px;color:var(--tx)}
+.mobile-menu-btn svg{width:20px;height:20px;stroke:#2f6b45;stroke-width:2}
+.top .farm-select-wrap{display:flex;align-items:center;gap:8px;padding-right:16px;border-right:1px solid var(--line)}
+.custom-select{position:relative;display:inline-flex;align-items:center}
+.custom-select select{appearance:none;-webkit-appearance:none;-moz-appearance:none;background:#f9fbfa;border:1px solid var(--line);border-radius:8px;padding:6px 28px 6px 10px;font-family:inherit;font-size:13.5px;font-weight:600;color:var(--tx);cursor:pointer;outline:none;transition:all .15s ease-in-out}
+.custom-select select:hover{border-color:#2f6b45;background:#fff}
+.custom-select select:focus{border-color:#2f6b45;background:#fff;box-shadow:0 0 0 2px rgba(47,107,69,.15)}
+.custom-select .select-arrow{position:absolute;right:8px;width:13px;height:13px;stroke:#2f6b45;stroke-width:2.2;fill:none;pointer-events:none;transition:transform .15s ease}
+.top .loc{display:flex;align-items:center;gap:6px;color:#3a4a42;font-size:12.5px}
+.top .sp{flex:1}
+.top .rng{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:7px;padding:5px 10px;font-size:12px}
+.rng label{display:flex;align-items:center;gap:5px;color:#46584e}
+.rng input{border:1px solid var(--line);border-radius:5px;padding:3px 5px;font:inherit;color:var(--tx)}
+.rng button{background:#2f6b45;color:#fff;border:0;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;font-weight:600}
+.avatar{width:30px;height:30px;border-radius:50%;background:#1f5a3a;color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700}
+.top svg{width:15px;height:15px;stroke:#2f6b45;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* content containers */
+.content{padding:18px 24px 30px}
+.dashboard-section{display:none}
+.dashboard-section.active{display:block;animation:fadeIn .2s ease-in-out}
+@keyframes fadeIn{from{opacity:.3}to{opacity:1}}
+
+.head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.head h1{font-size:22px;font-weight:700;display:flex;align-items:center;gap:8px;letter-spacing:-.2px}
+.head p{color:#44564c;margin-top:3px;font-size:13px}
+.pill{background:#e3f3e6;color:#2f6b45;border-radius:14px;padding:5px 12px;font-size:11px;font-weight:600}
+.pill.warn{background:#fdeec8;color:#a8690a}
+
+/* cards & grids */
+.row{display:grid;gap:14px;margin-top:14px}
+.r1{grid-template-columns:repeat(4,1fr)}
+.r-climate-kpi{grid-template-columns:repeat(5,1fr)}
+.r2{grid-template-columns:1.62fr 1fr}
+.r3{grid-template-columns:1.1fr 1fr}
+.r4{grid-template-columns:1fr 1fr 1.05fr}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--border-r);padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,0.03)}
+
+.kpi{display:flex;align-items:center;gap:12px;justify-content:space-between}
+.kpi .ico{width:32px;height:32px;flex-shrink:0}
+.kpi .l{font-size:11.5px;color:#46584e}
+.kpi .v{font-size:20px;font-weight:700;margin-top:2px}
+.kpi .s{font-size:11px;color:#46584e}
+.kpi .dn{font-size:11px;color:#d33a2f}
+.kpi .info{display:flex;gap:10px;align-items:center}
+.kpi .spark{align-self:flex-end}
+
+.ct{display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:13.5px;margin-bottom:12px}
+.ct .t{display:flex;align-items:center;gap:7px}
+.ct svg{width:15px;height:15px;stroke:#2f6b45;fill:none;stroke-width:1.8}
+.tabs{display:inline-flex;background:#eef2ef;border-radius:16px;padding:2px;margin-left:auto;margin-right:10px}
+.tabs button{border:0;background:transparent;padding:4px 12px;border-radius:14px;font-size:11px;color:#46584e;cursor:pointer}
+.tabs button.on{background:#2f6b45;color:#fff}
+.mapwrap{position:relative;border-radius:8px;overflow:hidden;height:270px}
+#map{height:100%;width:100%}
+.north{position:absolute;top:10px;left:10px;z-index:500;color:#fff;font-weight:700;font-size:11px;text-align:center;text-shadow:0 0 3px #000;line-height:1.1}
+.inset{position:absolute;right:10px;bottom:10px;z-index:500;width:56px;height:70px;background:#eaf2f6;border:2px solid #fff;border-radius:3px;display:grid;place-items:center}
+.expand{background:none;border:0;cursor:pointer}
+
+/* filters bar */
+.filter-bar{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 14px;margin-top:10px;margin-bottom:14px;font-size:12px;gap:12px;flex-wrap:wrap}
+.filter-group{display:flex;align-items:center;gap:8px}
+.filter-group label{font-weight:600;color:#46584e}
+.filter-select{border:1px solid var(--line);border-radius:6px;padding:4px 10px;font-size:12px;background:#f9fbfa;color:var(--tx);outline:none;cursor:pointer}
+
+/* scientific notices & badges */
+.satellite-notice{display:flex;align-items:center;gap:8px;background:#f0f5f2;border:1px solid #d2e4d8;color:#275338;border-radius:8px;padding:7px 12px;font-size:11.5px;margin-bottom:12px}
+.satellite-notice svg{width:15px;height:15px;stroke:#275338;fill:none;stroke-width:2;flex-shrink:0}
+.prov-badge{background:#fff0d6;color:#a8690a;border:1px solid #f1deb0;font-size:10px;font-weight:700;letter-spacing:.4px;padding:2px 7px;border-radius:10px;display:inline-block}
+
+/* soil properties cards */
+.soil-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.soil-prop-card{display:flex;flex-direction:column;justify-content:space-between}
+.soil-prop-card .card-head-sm{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.soil-prop-card .prop-title{font-size:13px;font-weight:600;color:#44564c}
+.soil-prop-card .prop-value{font-size:26px;font-weight:700;color:#1d2b24;margin-bottom:6px}
+.soil-prop-card .prop-unit{font-size:13px;font-weight:500;color:#667}
+.soil-prop-card .prop-desc{font-size:11.5px;color:#55685d;margin-bottom:12px}
+.soil-prop-card .prop-disclaimer{display:flex;gap:6px;align-items:center;font-size:10.5px;color:#7a5a10;background:#fff8e6;border:1px solid #f1deb0;padding:6px 8px;border-radius:6px}
+.soil-prop-card .prop-disclaimer svg{width:13px;height:13px;stroke:#a8690a;stroke-width:2;fill:none;flex-shrink:0}
+
+/* smap alerts & cards */
+.smap-alert-banner{display:none;align-items:center;gap:10px;background:#fff0ef;border:1px solid #f9ccc8;color:#c4352b;padding:9px 14px;border-radius:8px;font-size:12px;margin-bottom:12px}
+.smap-alert-banner svg{width:18px;height:18px;stroke:#c4352b;fill:none;stroke-width:2;flex-shrink:0}
+
+/* seasonal cards */
+.seasonal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:12px}
+.season-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.season-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;display:inline-block;align-self:flex-start}
+.season-badge.monsoon{background:#e1f0fb;color:#1c6ca1}
+.season-badge.summer{background:#fdeec8;color:#a8690a}
+.season-badge.winter{background:#e8f4ec;color:#275338}
+.season-badge.post-monsoon{background:#eedff8;color:#6c2e91}
+.season-rain{font-size:22px;font-weight:700;color:#1d2b24}
+.season-rain small{font-size:12px;font-weight:500;color:#667}
+.season-meta{display:flex;justify-content:space-between;font-size:11px;color:#55685d;padding-top:4px;border-top:1px solid #eef2ef}
+.season-days{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.day-chip{font-size:10.5px;background:#f3f6f4;padding:3px 8px;border-radius:4px;color:#46584e}
+.day-chip.heavy{background:#fff0ef;color:#c4352b}
+
+/* risk indicator grid */
+.risk-indicator-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}
+.risk-ind-card{display:flex;flex-direction:column;gap:8px}
+.risk-top{display:flex;justify-content:space-between;align-items:center}
+.risk-title{font-size:13.5px;font-weight:600}
+.chip-status{font-size:11px;font-weight:600;padding:3px 10px;border-radius:12px}
+.chip-status.green{background:#dff3e2;color:#2c7a43}
+.chip-status.amber{background:#fdeec8;color:#a8690a}
+.chip-status.red{background:#fcd9d6;color:#c4352b}
+.chip-status.unavailable{background:#eee;color:#777}
+.risk-main-val{font-size:22px;font-weight:700}
+.risk-main-val small{font-size:12px;font-weight:500;color:#667}
+.risk-detail{font-size:11.5px;color:#55685d;line-height:1.4}
+.text-muted{color:#889}
+
+/* Environmental risk profile card (Overview) */
+.risk .rk{margin:14px 0 18px}
+.risk .rk:last-of-type{margin-bottom:12px}
+.risk .rk .top2{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.risk .rk b{font-weight:600;font-size:13px;color:#1d2b24}
+.bar{height:9px;background:#e3e6e8;border-radius:5px;overflow:hidden;width:100%}
+.bar i{display:block;height:100%;border-radius:5px;transition:width .3s ease}
+.chip{border-radius:12px;padding:3px 12px;font-size:11.5px;font-weight:700;display:inline-block;letter-spacing:0.3px}
+.amber{background:#fdeec8;color:#a8690a}.amber-b{background:#e8b23a}
+.red{background:#fcd9d6;color:#c4352b}.red-b{background:#d6453d}
+.green{background:#dff3e2;color:#2c7a43}.green-b{background:#43a85b}
+.note{display:flex;gap:7px;align-items:center;color:#5c6e64;font-size:11px;margin-top:16px}
+
+/* trends chart legend */
+.legend{display:flex;gap:14px;align-items:center;font-size:11.5px;color:#46584e;font-weight:500}
+.legend i{display:inline-block;width:18px;height:2px;position:relative;margin-right:5px;vertical-align:middle}
+.legend i:after{content:"";position:absolute;left:5px;top:-3px;width:6px;height:6px;border-radius:50%;background:#fff;border:1.5px solid}
+.legend .b{background:#3a86c8}.legend .b:after{border-color:#3a86c8}
+.legend .gg{background:#3f9b5b}.legend .gg:after{border-color:#3f9b5b}
+
+/* chart containers & tooltips */
+.chart-box{width:100%;height:210px;position:relative}
+.chart-box svg{overflow:visible}
+.chart-tooltip{position:absolute;background:rgba(29,43,36,.92);color:#fff;padding:6px 10px;border-radius:6px;font-size:11px;pointer-events:none;z-index:1000;display:none;line-height:1.4;box-shadow:0 4px 10px rgba(0,0,0,.15);white-space:nowrap}
+.bar-elem{cursor:pointer;transition:opacity .15s}
+.bar-elem:hover{opacity:.75}
+.dot-elem{cursor:pointer;transition:r .15s}
+.dot-elem:hover{r:5}
+
+/* legends */
+.chart-legend{display:flex;align-items:center;gap:14px;font-size:11.5px;color:#46584e;font-weight:500;margin-bottom:8px}
+.chart-legend span{display:flex;align-items:center;gap:5px}
+.legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+/* presets & periods */
+.period{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px;color:#33463c;flex-wrap:wrap;gap:6px}
+.presets a{margin-left:8px;color:#2c6aa3;text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:3px 10px;background:#fff}
+.msg{margin-top:8px;background:#fff8e6;border:1px solid #f1deb0;color:#7a5a10;border-radius:8px;padding:7px 12px;font-size:12px}
+
+/* tables */
+.cc{width:100%;border-collapse:collapse;font-size:12px}
+.cc th{font-weight:600;color:#46584e;text-align:left;padding:4px 6px;border-bottom:1px solid var(--line);font-size:11px}
+.cc td{padding:7px 6px;border-bottom:1px solid #eef2ef}
+.cc td:not(:first-child){font-weight:600}
+.cmt{font-size:10.5px;color:#667a70;margin-top:10px;line-height:1.45}
+
+/* rotation grid */
+.rot{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.rot .c{padding:9px 10px;background:#f6f8f7}
+.rot .c.hl{background:#fff;border:2px solid #2f7a4a;margin:-1px;border-radius:5px;z-index:2;position:relative}
+.rot h4{font-size:12px;font-weight:700;margin-bottom:8px;white-space:nowrap}
+.rot .li{display:flex;justify-content:space-between;font-size:10.5px;padding:3px 0;border-top:1px solid #e8ecea}
+.rot .li span{color:#44564c}
+.rot .li b{font-weight:600}
+.t-red{color:#d6453d}.t-amber{color:#e0912c}.t-dark{color:#1d2b24}
+.link{display:inline-block;margin-top:12px;color:#2c6aa3;font-size:12px;text-decoration:none}
+.link:before{content:"⇄ "}
+
+/* mobile drawer backdrop */
+.sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:850}
+.sidebar-backdrop.show{display:block}
+
+/* responsive media queries */
+@media(max-width:1180px){
+  .r-climate-kpi{grid-template-columns:repeat(3,1fr)}
+  .seasonal-grid{grid-template-columns:repeat(2,1fr)}
+  .soil-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:980px){
+  .app{grid-template-columns:1fr}
+  .side{position:fixed;top:0;bottom:0;left:0;width:230px;transform:translateX(-100%);transition:transform .2s ease-in-out}
+  .side.open{transform:translateX(0)}
+  .mobile-menu-btn{display:block}
+  .r1{grid-template-columns:repeat(2,1fr)}
+  .r2,.r3,.r4{grid-template-columns:1fr}
+  .r-climate-kpi{grid-template-columns:repeat(2,1fr)}
+  .risk-indicator-grid{grid-template-columns:1fr}
+  .soil-grid{grid-template-columns:1fr}
+}
+
+@media(max-width:600px){
+  .r1,.r-climate-kpi,.seasonal-grid{grid-template-columns:1fr}
+  .top{padding:8px 12px;gap:10px}
+  .content{padding:12px}
+  .top .loc{display:none}
+  .rot{grid-template-columns:1fr}
+}

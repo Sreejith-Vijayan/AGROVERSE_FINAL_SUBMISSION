@@ -1,0 +1,7 @@
+rule_id,trigger_indicator,applicable_period,farmer_message,qualification
+R001,rainfall_deficit,crop_sensitive_period,Review irrigation availability and monitor crop moisture stress.,Requires crop stage and irrigation information; not an automatic drought diagnosis.
+R002,extended_dry_spell,before_planting,Review planting timing and available water before sowing.,Do not automatically recommend delaying planting.
+R003,excessive_rainfall,planting_period,Review field drainage and avoid planting into waterlogged conditions where locally advised.,Requires local field confirmation.
+R004,high_temperature,active_growth,Monitor heat-stress exposure and crop condition.,"Requires crop-, variety- and stage-specific interpretation."
+R005,low_soil_moisture_anomaly,any,Check irrigation availability and field conditions.,"Satellite soil-moisture data are regional context, not a direct field measurement."
+R006,vegetation_index_decline,active_growth,Inspect crop condition and investigate possible causes.,Vegetation anomaly alone cannot diagnose the cause.

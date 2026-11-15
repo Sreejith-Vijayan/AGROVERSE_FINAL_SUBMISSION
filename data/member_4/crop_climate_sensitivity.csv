@@ -1,0 +1,25 @@
+crop_id,climate_indicator,qualitative_sensitivity,interpretation
+rice,rainfall_deficit,high,Potential water stress; interpret with irrigation and crop stage.
+rice,excess_rainfall,high,Potential flooding or drainage concern; rainfall alone does not prove field flooding.
+rice,high_temperature,moderate,Potential heat exposure; sensitivity depends on growth stage and variety.
+rice,prolonged_dry_spell,high,Potential water stress; consider water availability and crop stage.
+groundnut,rainfall_deficit,high,"Potential moisture stress, especially during sensitive growth stages."
+groundnut,excess_rainfall,high,Waterlogging concern.
+groundnut,high_temperature,moderate,Potential heat exposure; stage-specific interpretation required.
+groundnut,prolonged_dry_spell,high,Potential moisture stress.
+banana,rainfall_deficit,high,Potential water stress; regular water supply is important.
+banana,excess_rainfall,moderate,Potential drainage and waterlogging concern.
+banana,high_temperature,moderate,Potential heat exposure; verify against variety and stage.
+banana,prolonged_dry_spell,high,Potential water stress.
+coconut,rainfall_deficit,moderate_to_high,Prolonged moisture deficit may affect the perennial crop.
+coconut,excess_rainfall,unknown,Do not assign a sensitivity without a sourced local threshold.
+coconut,high_temperature,unknown,Do not assign a sensitivity without a sourced local threshold.
+coconut,prolonged_dry_spell,high,Potential prolonged moisture stress.
+tapioca,rainfall_deficit,moderate,"Potential moisture stress, especially during establishment."
+tapioca,excess_rainfall,high,Potential waterlogging concern.
+tapioca,high_temperature,unknown,Requires a sourced crop- and stage-specific threshold.
+tapioca,prolonged_dry_spell,moderate,Potential moisture stress; crop stage matters.
+sugarcane,rainfall_deficit,high,Potential water constraint over a long growing period.
+sugarcane,excess_rainfall,unknown,Requires a sourced local drainage/waterlogging threshold.
+sugarcane,high_temperature,unknown,Requires a sourced crop- and stage-specific threshold.
+sugarcane,prolonged_dry_spell,high,Potential water constraint; irrigation availability matters.

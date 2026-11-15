@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "location": "Palakkad Demo Farm, Kerala, India",
+    "coordinates": [
+      10.708,
+      76.639
+    ],
+    "status": "PROVISIONAL",
+    "notice": "Values are provisional regional estimates and require ground verification. Not confirmed farm-level core measurements."
+  },
+  "properties": [
+    {
+      "name": "Clay content",
+      "key": "clay_content_pct",
+      "value": 28.4,
+      "unit": "%",
+      "status": "PROVISIONAL",
+      "description": "Sub-surface clay content estimate (0-30 cm)"
+    },
+    {
+      "name": "Soil pH",
+      "key": "soil_ph",
+      "value": 6.35,
+      "unit": "pH scale (0-14)",
+      "status": "PROVISIONAL",
+      "description": "Soil acidity level (moderately acidic)"
+    },
+    {
+      "name": "Soil organic carbon (SOC)",
+      "key": "soil_organic_carbon_pct",
+      "value": 0.78,
+      "unit": "%",
+      "status": "PROVISIONAL",
+      "description": "Organic carbon in topsoil fraction"
+    }
+  ]
+}

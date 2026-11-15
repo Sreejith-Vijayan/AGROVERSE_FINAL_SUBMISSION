@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AgroVerse – Farm resilience overview · {{ farm.name }}</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% macro leaf(sz=22) %}
+<svg width="{{sz}}" height="{{sz}}" viewBox="0 0 24 24" fill="none" stroke="#3f9b5b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M5 19c0-9 5-14 15-14 0 10-5 15-14 15"/><path d="M5 19c3-5 6-8 10-10"/>
+</svg>
+{% endmacro %}
+
+<div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+
+<div class="app">
+ <!-- SIDEBAR -->
+ <aside class="side">
+  <div class="brand">
+   <div class="logo">{{ leaf(26) }}<b>AGROVERSE</b></div>
+   <small>NASA Space Apps 2026</small>
+  </div>
+  <nav class="nav">
+   <a class="on" href="#overview" data-section="overview">
+     <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+     <span>Overview</span>
+   </a>
+   <a href="#climate" data-section="climate">
+     <svg viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 8.5a4 4 0 0 1-.5 7.97V18z"/><path d="M8 20l-1 2M12 20l-1 2M16 20l-1 2"/></svg>
+     <span>Climate Dashboard</span>
+   </a>
+   <a href="#soil" data-section="soil">
+     <svg viewBox="0 0 24 24"><path d="M12 21V11M12 11c0-4 3-6 7-6 0 4-3 6-7 6zM12 14c0-3-2-5-6-5 0 3 2 5 6 5z"/></svg>
+     <span>Soil Properties</span>
+   </a>
+   <a href="#smap" data-section="smap">
+     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 2.5C8 8 5.5 11.2 5.5 14.5a6.5 6.5 0 0 0 13 0C18.5 11.2 16 8 12 2.5z"/></svg>
+     <span>SMAP Soil Moisture</span>
+   </a>
+   <a href="#trends" data-section="trends">
+     <svg viewBox="0 0 24 24"><path d="M3 20h18M5 16l4-5 4 3 6-8"/></svg>
+     <span>Climate Trends</span>
+   </a>
+   <a href="#risks" data-section="risks">
+     <svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M12 8v5M12 16v.5"/></svg>
+     <span>Risk Indicators</span>
+   </a>
+   <a href="#rotations" data-section="rotations">
+     <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15 6.7M3 12a9 9 0 0 1 15-6.7M18 2v4h-4M6 22v-4h4"/></svg>
+     <span>Rotation Simulator</span>
+   </a>
+   <a href="#decision-support" data-section="decision-support">
+     <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+     <span>Crop Decision Support</span>
+   </a>
+   <a href="#what-if" data-section="what-if">
+     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+     <span>What-if Simulator</span>
+   </a>
+   <a href="#climate-history" data-section="climate-history">
+     <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg>
+     <span>Historical Climate</span>
+   </a>
+   <a href="#data-quality" data-section="data-quality">
+     <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+     <span>Data Quality & Sources</span>
+   </a>
+  </nav>
+  <div class="field">
+    <div class="palms"><i style="height:44px"></i><i style="height:30px"></i><i style="height:52px"></i><i style="height:36px"></i><i style="height:48px"></i></div>
+    <p>Smarter Farming.<br>A Resilient Tomorrow.</p>
+  </div>
+ </aside>
+
+ <!-- MAIN WRAPPER -->
+ <div class="main">
+  <!-- TOPBAR -->
+  <header class="top">
+   <button id="mobileMenuToggle" class="mobile-menu-btn" aria-label="Toggle navigation">
+     <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+   </button>
+   <div class="farm-select-wrap">
+    {{ leaf(22) }}
+    <div class="custom-select">
+     <select id="farmSelect" name="farm" aria-label="Select Farm">
+      <option value="palakkad">{{ farm.name }}</option>
+     </select>
+     <svg class="select-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+   </div>
+   <div class="loc">
+     <svg viewBox="0 0 24 24"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+     {{ farm.place }}
+   </div>
+   <div class="sp"></div>
+   <form class="rng" method="get" action="/">
+    <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+    <label>From <input type="date" name="start" value="{{ start_val }}" min="{{ min_date }}" max="{{ max_date }}"></label>
+    <label>To <input type="date" name="end" value="{{ end_val }}" min="{{ min_date }}" max="{{ max_date }}"></label>
+    <button type="submit">Explore</button>
+   </form>
+   <div class="avatar" title="Agricultural Specialist">AS</div>
+  </header>
+
+  <!-- CONTENT PANELS -->
+  <main class="content">
+
+   <!-- ================================================================
+        SECTION 1: OVERVIEW
+        ================================================================ -->
+   <section id="section-overview" class="dashboard-section active">
+    <div class="head">
+     <div>
+      <h1>{{ leaf(28) }} Farm resilience overview</h1>
+      <p>Environmental evidence and crop-rotation insights for {{ farm.name }}.</p>
+     </div>
+     <div class="pill {{ 'warn' if source=='demo' }}">
+       {{ coverage_label }}
+     </div>
+    </div>
+    <div class="period">
+     <span><b>Period explored:</b> {{ label }} ({{ span }} day{{ 's' if span!=1 }})</span>
+     <span class="presets">{% for n,a,b in presets %}<a href="/?start={{a}}&end={{b}}">{{ n }}</a>{% endfor %}</span>
+    </div>
+    {% if msg %}<div class="msg">{{ msg }}</div>{% endif %}
+
+    <div class="row r1">
+     <div class="card kpi">
+      <div class="info">
+       <svg class="ico" viewBox="0 0 24 24" fill="#3a86c8"><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 8.5a4 4 0 0 1-.5 7.97V18z" opacity=".95"/><path d="M8 20l-1 2M12 20l-1 2M16 20l-1 2" stroke="#3a86c8" stroke-width="1.6" stroke-linecap="round"/></svg>
+       <div>
+         <div class="l">Rainfall (period)</div>
+         <div class="v">{{ "{:,.0f}".format(k.rain) }} mm</div>
+         <div class="dn">{{ "▼" if k.rain_delta<0 else "▲" }} {{ "%.0f"|format(k.rain_delta|abs) }}% vs WMO 1991–2020 baseline</div>
+       </div>
+      </div>
+      <div class="spark">{{ spark_rain|safe }}</div>
+     </div>
+
+     <div class="card kpi">
+      <div class="info">
+       <svg class="ico" viewBox="0 0 24 24" fill="#3a86c8"><path d="M12 2.5C8 8 5.5 11.2 5.5 14.5a6.5 6.5 0 0 0 13 0C18.5 11.2 16 8 12 2.5z"/></svg>
+       <div>
+         <div class="l">Soil moisture</div>
+         <div class="v">{{ k.soil_label }}</div>
+         <div class="s">({{ "%.0f"|format(k.soil_pct) }}th percentile · {{ "%.0f"|format(k.soil) }}%)</div>
+       </div>
+      </div>
+      <div class="spark">{{ spark_moist|safe }}</div>
+     </div>
+
+     <div class="card kpi">
+      <div class="info">{{ leaf(34) }}
+       <div>
+         <div class="l">Vegetation health</div>
+         {% if ndvi.isAvailable %}
+         <div class="v">{{ ndvi.label }}</div>
+         <div class="s">(NDVI {{ ndvi.value }}, provisional)</div>
+         {% else %}
+         <div class="v" style="font-size:15px;color:#889">No Data</div>
+         <div class="s" style="color:#d6453d">{{ ndvi.description }}</div>
+         {% endif %}
+       </div>
+      </div>
+      <div class="spark">{{ spark_veg|safe }}</div>
+     </div>
+
+     <div class="card kpi">
+      <div class="info">
+       <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#d6453d" stroke-width="2" stroke-linecap="round"><path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0z"/><circle cx="12" cy="17" r="1.6" fill="#d6453d"/><path d="M12 8v7"/></svg>
+       <div>
+         <div class="l">Heat stress days</div>
+         <div class="v">{{ k.heat }} day{{ "s" if k.heat!=1 }}</div>
+         <div class="s">(max temp ≥ 35 °C)</div>
+       </div>
+      </div>
+      <div class="spark">{{ spark_heat|safe }}</div>
+     </div>
+    </div>
+
+    <div class="row r2">
+     <div class="card">
+      <div class="ct">
+        <span class="t"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>Farm location &amp; Earth observation</span>
+        <div class="tabs"><button class="on" data-l="sat">Satellite</button><button data-l="ndvi">NDVI</button><button data-l="rain">Rainfall</button></div>
+        <button class="expand" id="fs" title="Fullscreen"><svg viewBox="0 0 24 24" width="15" height="15" stroke="#333" fill="none" stroke-width="2"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+      </div>
+      <div class="mapwrap" id="mw">
+        <div id="map"></div>
+        <div class="north">▲<br>N</div>
+        <div class="inset"><svg viewBox="0 0 40 60" width="40" height="56"><path d="M8 2l10 8 6 18 8 14-6 14-10-6-8-18-6-14z" fill="#e4e8ea" stroke="#9aa" stroke-width=".8"/><circle cx="21" cy="42" r="2.6" fill="#e44"/></svg></div>
+      </div>
+     </div>
+
+     <div class="card risk">
+      <div class="ct">
+        <span class="t"><svg viewBox="0 0 24 24" fill="#2f6b45" stroke="none"><path d="M12 2l8 3v6c0 5-3.5 8-8 11-4.5-3-8-6-8-11V5z"/><path d="M8.5 12l2.5 2.5L16 9.5" stroke="#fff" stroke-width="2" fill="none"/></svg>Environmental risk profile</span>
+      </div>
+      {% for r in risks %}
+      <div class="rk">
+        <div class="top2"><b>{{ r.name }}</b><span class="chip {{ r.cls }}">{{ r.level }} Risk &middot; {{ r.pct }}%</span></div>
+        <div class="bar"><i class="{{ r.cls }}-b" style="width:{{ r.pct }}%"></i></div>
+      </div>
+      {% endfor %}
+      <div class="note"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#667" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v.5M12 11v5"/></svg>Based on available historical observations.</div>
+     </div>
+    </div>
+
+    <div class="row r3">
+     <div class="card">
+      <div class="ct">
+        <span class="t"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 16l4-5 4 3 6-8"/></svg>Environmental trends{% if mode=="climatology" %} (average year){% endif %}</span>
+        <div class="legend"><span><i class="b"></i>Rainfall</span><span><i class="gg"></i>Soil Moisture</span></div>
+      </div>
+      {{ trends|safe }}
+     </div>
+
+     <div class="card">
+      <div class="ct">
+        <span class="t"><svg viewBox="0 0 24 24"><path d="M17 3l4 4-4 4M3 11V9a2 2 0 0 1 2-2h16M7 21l-4-4 4-4M21 13v2a2 2 0 0 1-2 2H3"/></svg>Rotation strategy comparison</span>
+      </div>
+      <div class="rot">
+       {% for r in rotations %}
+       <div class="c {{ 'hl' if r.hl }}">
+         <h4>{% if r.star %}<span style="color:#e0a21c">★</span> {% endif %}{{ r.title }}</h4>
+         {% for n,v,c in r.rows %}<div class="li"><span>{{ n }}</span><b class="t-{{ c }}">{{ v }}</b></div>{% endfor %}
+       </div>
+       {% endfor %}
+      </div>
+      <a class="link" href="#rotations" onclick="document.querySelector('[data-section=rotations]').click()">Open rotation simulator</a>
+     </div>
+    </div>
+
+    <div class="row r4">
+     <div class="card">
+      <div class="ct"><span class="t"><svg viewBox="0 0 24 24"><path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0z"/></svg>Max temperature by year (2020–2025)</span></div>
+      {{ tmax_chart|safe }}
+     </div>
+     <div class="card">
+      <div class="ct"><span class="t"><svg viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 8.5a4 4 0 0 1-.5 7.97V18z"/></svg>Rainfall by year (2020–2025)</span></div>
+      {{ rain_chart|safe }}
+     </div>
+      <div class="card">
+       <div class="ct"><span class="t"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 16l4-5 4 3 6-8"/></svg>Climate analysis: 2020–{{ c.last }}</span></div>
+       <table class="cc">
+        <tr><th></th><th>2020–{{ c.last }} average<br><small style="font-weight:400;color:#667">vs Historical baseline (1991–2020 WMO normal)</small></th><th>Direction</th></tr>
+        <tr>
+          <td>Avg max temperature</td>
+          <td>{{ "%.1f"|format(c.sel_tmax) }} °C{% if c.tmax_diff is not none %} ({{ "%+.1f"|format(c.tmax_diff) }} vs baseline){% endif %}</td>
+          <td class="{{ 't-red' if c.tmax_diff > 0 }}">{{ "▲" if c.tmax_diff > 0 else "▼" }}</td>
+        </tr>
+        <tr>
+          <td>Annual rainfall</td>
+          <td>{{ "{:,.0f}".format(c.sel_rain) }} mm{% if c.rain_diff_pct is not none %} ({{ "%+.0f"|format(c.rain_diff_pct) }}%){% endif %}</td>
+          <td>{{ "▲" if c.rain_diff_pct > 0 else "▼" }}</td>
+        </tr>
+        <tr>
+          <td>Heat stress days</td>
+          <td>{{ c.sel_heat }} days (≥ 35 °C)</td>
+          <td class="{{ 't-red' if c.heat_diff > 0 }}">{{ "%+.0f"|format(c.heat_diff) }} vs baseline</td>
+        </tr>
+       </table>
+       <div class="satellite-notice" style="margin-top:10px">
+         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+         <div><b>Historical reference:</b> 1991–2020 WMO 30-year climate normal (Palakkad).
+         Current analysis covers {{ c.first }}–{{ c.last }} ({{ c.n_years }} year{{ "s" if c.n_years != 1 }}).
+         Decade trend not shown — six years of observations (2020–2025) do not constitute proof of long-term climate trends.</div>
+       </div>
+       <p class="cmt">Descriptive comparison only. Single-site daily data; six years of observations (2020–2025) do not constitute proof of long-term climate change.</p>
+      </div>
+    </div>
+   </section>
+
+   <!-- ================================================================
+        SECTION 2: CLIMATE DASHBOARD (NASA POWER verified)
+        ================================================================ -->
+   <section id="section-climate" class="dashboard-section">
+    <div class="head">
+     <div>
+      <h1>{{ leaf(28) }} Climate Dashboard</h1>
+      <p>Verified NASA POWER agro-climatological indicators for Palakkad (2020–2025).</p>
+     </div>
+     <div class="pill">NASA POWER Verified Dataset</div>
+    </div>
+
+    <!-- Filters Bar -->
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label for="climateYearFilter">Filter by Year:</label>
+        <select id="climateYearFilter" class="filter-select">
+          <option value="all">Full Record (2020 – 2025 · 72 months)</option>
+          <option value="2025">Year 2025</option>
+          <option value="2024">Year 2024</option>
+          <option value="2023">Year 2023</option>
+          <option value="2022">Year 2022</option>
+          <option value="2021">Year 2021</option>
+          <option value="2020">Year 2020</option>
+        </select>
+      </div>
+      <div style="font-size:11.5px;color:#667a70">Source: NASA POWER API (10.7867° N, 76.6548° E)</div>
+    </div>
+
+    <!-- 5 KPI Cards -->
+    <div class="row r-climate-kpi">
+      <div class="card kpi">
+        <div class="info">
+          <div><div class="l">Total Rainfall</div><div id="cKpiRain" class="v">-- mm</div><div class="s">Cumulative (period)</div></div>
+        </div>
+      </div>
+      <div class="card kpi">
+        <div class="info">
+          <div><div class="l">Avg Temperature</div><div id="cKpiTemp" class="v">-- °C</div><div class="s">Daily mean average</div></div>
+        </div>
+      </div>
+      <div class="card kpi">
+        <div class="info">
+          <div><div class="l">Relative Humidity</div><div id="cKpiRh" class="v">-- %</div><div class="s">2m surface moisture</div></div>
+        </div>
+      </div>
+      <div class="card kpi">
+        <div class="info">
+          <div><div class="l">Solar Radiation</div><div id="cKpiSolar" class="v">-- MJ/m²/d</div><div class="s">All-sky shortwave</div></div>
+        </div>
+      </div>
+      <div class="card kpi">
+        <div class="info">
+          <div><div class="l">Avg Wind Speed</div><div id="cKpiWind" class="v">-- m/s</div><div class="s">10m Gap air velocity</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monthly Charts -->
+    <div class="row r2" style="margin-top:14px">
+      <div class="card">
+        <div class="ct">
+          <span class="t"><svg viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 8.5a4 4 0 0 1-.5 7.97V18z"/></svg>Monthly Rainfall (mm)</span>
+          <span style="font-size:11px;color:#667">Hover bars for exact monthly total</span>
+        </div>
+        <div id="climateRainChart" class="chart-box"></div>
+      </div>
+
+      <div class="card">
+        <div class="ct">
+          <span class="t"><svg viewBox="0 0 24 24"><path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0z"/></svg>Monthly Temperature Range (°C)</span>
+          <span style="font-size:11px;color:#667">Mean with min/max daily bounds</span>
+        </div>
+        <div id="climateTempChart" class="chart-box"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="ct">
+        <span class="t"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg>Relative Humidity &amp; Solar Radiation Dynamics</span>
+        <div class="chart-legend">
+          <span><i class="legend-dot" style="background:#3f9b5b"></i>Relative Humidity (%)</span>
+          <span><i class="legend-dot" style="background:#f0a030"></i>Solar Radiation (MJ/m²/day)</span>
+        </div>
+      </div>
+      <div id="climateRhSolarChart" class="chart-box"></div>
+    </div>
+   </section>
+
+   <!-- ================================================================
+        SECTION 3: SOIL PROPERTIES (Provisional)
+        ================================================================ -->
+   <section id="section-soil" class="dashboard-section">
+    <div class="head">
+     <div>
+      <h1>{{ leaf(28) }} Static Soil Properties</h1>
+      <p>Provisional regional soil texture and chemical attributes for Palakkad Farm.</p>
+     </div>
+     <div class="pill warn">PROVISIONAL DATASET</div>
+    </div>
+
+    <!-- Scientific Disclaimer Notice -->
+    <div class="satellite-notice">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div>
+        <b>Provisional Dataset Notice:</b> These values represent provisional regional survey estimates and require on-ground laboratory core sampling verification. They are strictly not confirmed farm-level core measurements. Unverified soil attributes (nitrogen, sand, silt) are excluded from this platform.
+      </div>
+    </div>
+
+    <div id="soilPropsGrid" class="soil-grid"></div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="ct"><span class="t"><svg viewBox="0 0 24 24"><path d="M12 21V11M12 11c0-4 3-6 7-6 0 4-3 6-7 6z"/></svg>Soil Resilience Management Notes</span></div>
+      <p style="font-size:12.5px;color:#44564c;line-height:1.6">
+        The medium-loamy alluvium of the Chittur-Kollengode paddy corridor exhibits moderate sub-surface clay content (~28.4%) enabling sound water retention during the Southwest Monsoon. However, low soil organic carbon (0.78%) makes the soil prone to crusting and rapid drying under summer heat stress (temperatures ≥ 35 °C). Incorporating legume green manure (Sesbania/Dhaincha) in crop rotations significantly enhances topsoil organic matter.
+      </p>
+    </div>
+   </section>
+
+   <!-- ================================================================
+        SECTION 4: NASA SMAP SOIL MOISTURE
+        ================================================================ -->
+   <section id="section-smap" class="dashboard-section">
+    <div class="head">
+     <div>
+      <h1>{{ leaf(28) }} NASA SMAP Soil Moisture</h1>
+      <p>Soil Moisture Active Passive satellite estimates (2020–2025).</p>
+     </div>
+     <div class="pill warn">PROVISIONAL SATELLITE ESTIMATES</div>
+    </div>
+
+    <!-- Mandatory Satellite Limitation Notice -->
+    <div class="satellite-notice">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <div>
+        <b>Mandatory Resolution Notice:</b> ~36 km grid cell; not a farm-level measurement. SMAP satellite estimates are provisional regional indicators, not direct in-situ soil moisture sensor measurements.
+      </div>
+    </div>
+
+    <!-- Low Coverage Alert Banner -->
+    <div id="smapLowCoverageAlert" class="smap-alert-banner"></div>
+
+    <div class="card">
+      <div class="ct">
+        <span class="t"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>Monthly Volumetric Soil Moisture Trends (m³/m³)</span>
+        <div class="chart-legend">
+          <span><i class="legend-dot" style="background:#2f6b45"></i>Combined AM/PM</span>
+          <span><i class="legend-dot" style="background:#3a86c8"></i>AM Pass (~06:00)</span>
+          <span><i class="legend-dot" style="background:#f0a030"></i>PM Pass (~18:00)</span>
+        </div>
+      </div>
+      <div id="smapChart" class="chart-box" style="height:230px"></div>
+      <p class="cmt" style="margin-top:12px">
+        <b>Scientific Observation:</b> Volumetric soil moisture peaks in the Southwest Monsoon months (July–August: ~0.38–0.42 m³/m³) and drops in the dry summer months (February–April: ~0.14–0.18 m³/m³). The relationship between precipitation and SMAP satellite soil moisture is purely descriptive; correlation does not imply direct causation.
+      </p>
+    </div>
+   </section>
+
+   <!-- ================================================================
+        SECTION 5: CLIMATE TRENDS & SEASONAL BREAKDOWN
+        ================================================================ -->
+   <section id="section-trends" class="dashboard-section">
+    <div class="head">
+     <div>
+      <h1>{{ leaf(28) }} Climate Trends &amp; Seasonal Summaries</h1>
+      <p>Multi-year aggregated precipitation, temperature, and seasonal patterns (2020–2025).</p>
+     </div>
+     <div class="pill">Verified Multi-Year Summaries</div>
+    </div>
+
+    <!-- Operational Threshold Notice -->
+    <div class="satellite-notice">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16v.5"/></svg>
+      <div>
+        <b>Operational Meteorological Definitions:</b> Rainy-day (≥ 2.5 mm) and heavy-rain-day (≥ 64.5 mm) counts are operational precipitation thresholds, not drought or flood classifications. No unsupported climate change, drought, or flood claims are made from these summaries.
+      </div>
+    </div>
+
+    <!-- Annual Rainfall Comparison -->
+    <div class="card">
+      <div class="ct">
+        <span class="t"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 16l4-5 4 3 6-8"/></svg>Annual Cumulative Rainfall (2020–2025)</span>
+        <span style="font-size:11px;color:#667">Hover bars to view rainy days and heavy rain days</span>
+      </div>
+      <div id="yearlySummaryChart" class="chart-box"></div>
+    </div>
+
+    <!-- Seasonal Summary Filter & Cards -->
+    <div class="filter-bar" style="margin-top:16px">
+      <div class="filter-group">
+        <label for="seasonalYearFilter">View Seasons for Year:</label>
+        <select id="seasonalYearFilter" class="filter-select">
+          <option value="2025">Year 2025</option>
+          <option value="2024">Year 2024</option>
+          <option value="2023">Year 2023</option>
+          <option value="2022">Year 2022</option>
+          <option value="2021">Year 2021</option>
+          <option value="2020">Year 2020</option>
+        </select>
+      </div>
+      <div style="font-size:11px;color:#667">Four Standard Seasons: Winter (Jan–Feb), Summer (Mar–May), SW Monsoon (Jun–Sep), Post-Monsoon (Oct–Dec)</div>
+    </div>
+
+    <div id="seasonalGrid" class="seasonal-grid"></div>
+   </section>
+
+   <!-- ================================================================
+        SECTION 6: AGRICULTURAL RISK INDICATORS
+        ================================================================ -->
+   <section id="section-risks" class="dashboard-section">
+    <div class="head">
+     <div>
+      <h1>{{ leaf(28) }} Environmental Risk Indicators</h1>
+      <p>Scientifically grounded agro-environmental indicators based on verified historical criteria.</p>
+     </div>
+     <div class="pill">Empirical Indicators</div>
+    </div>
+
+    <div class="satellite-notice">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <div>
+        <b>Scientific Transparency Standard:</b> Indicators present verified observational thresholds only. Risk indicators distinguish between measured empirical data, satellite estimates, and unavailable data. No speculative risk scores or unverified crop failure forecasts are generated.
+      </div>
+    </div>
+
+    <div id="riskCardsContainer"></div>
+   </section>
+
+   <!-- ================================================================
+        SECTION 7: ROTATION SIMULATOR
+        ================================================================ -->
+   <section id="section-rotations" class="dashboard-section">
+    <div class="head">
+     <div>
+      <h1>{{ leaf(28) }} Crop Rotation Strategy Simulator</h1>
+      <p>Comparative agricultural resilience pathways for Palakkad Demo Farm.</p>
+     </div>
+     <div class="pill">Agronomic Scenarios</div>
+    </div>
+
+    <div class="card">
+      <div class="ct">
+        <span class="t"><svg viewBox="0 0 24 24"><path d="M17 3l4 4-4 4M3 11V9a2 2 0 0 1 2-2h16M7 21l-4-4 4-4M21 13v2a2 2 0 0 1-2 2H3"/></svg>Agronomic Rotation Pathways</span>
+      </div>
+      <div class="rot">
+       {% for r in rotations %}
+       <div class="c {{ 'hl' if r.hl }}" style="padding:14px">
+         <h4 style="font-size:13.5px;margin-bottom:12px">{% if r.star %}<span style="color:#e0a21c">★</span> {% endif %}{{ r.title }}</h4>
+         {% for n,v,c in r.rows %}
+         <div class="li" style="padding:6px 0;font-size:11.5px"><span>{{ n }}</span><b class="t-{{ c }}">{{ v }}</b></div>
+         {% endfor %}
+       </div>
+       {% endfor %}
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="ct"><span class="t"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>Scenario Insights</span></div>
+      <p style="font-size:12.5px;color:#44564c;line-height:1.6">
+        <b>Rotation A (Investigate):</b> Replaces traditional post-harvest fallow with short-duration pulse intercropping (Black Gram / Urad), followed by nitrogen-fixing green manure (Sesbania). Demonstrates enhanced resilience against winter dry-spells while replenishing soil organic matter without demanding irrigation pumping.
+      </p>
+      <div class="satellite-notice" style="margin-top:10px">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <div><b>Agronomic Advisory Notice:</b> Crop rotation scenarios are provided for comparative illustrative resilience pathways. This platform does not generate automated crop recommendations directly from climate data.</div>
+      </div>
+    </div>
+   </section>
+
+  
+   <!-- ================================================================
+        SECTION 8: CROP DECISION SUPPORT (SIX CROPS)
+        ================================================================ -->
+   <section id="section-decision-support" class="dashboard-section">
+    <div class="head">
+     <div>
+      <h1>Crop Decision Support Engine</h1>
+      <p>Multi-crop suitability comparison based on Member 4 Knowledge Base & 2020–2025 Climate Observations.</p>
+     </div>
+     <div class="pill">What Should I Grow Now?</div>
+    </div>
+
+    <!-- Monthly Filter & Context -->
+    <div class="card" style="margin-bottom:14px">
+      <div class="ct">
+        <span class="t"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Select Assessment Month (Seasonal Window)</span>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px">
+        <label style="font-size:12.5px;font-weight:600;color:var(--text-main)">Target Sowing/Growth Month:</label>
+        <select id="dsMonthSelect" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-card);color:var(--text-main);font-size:13px">
+          <option value="1">January (Puncha / Winter Dry)</option>
+          <option value="2">February (Late Winter / Heat Transition)</option>
+          <option value="3">March (Pre-Monsoon Summer)</option>
+          <option value="4">April (Summer / Virippu Prep)</option>
+          <option value="5" selected>May (Virippu Sowing / Pre-Monsoon)</option>
+          <option value="6">June (SW Monsoon / Virippu Active)</option>
+          <option value="7">July (Peak SW Monsoon)</option>
+          <option value="8">August (Late Monsoon)</option>
+          <option value="9">September (Mundakan Sowing / Post-Monsoon)</option>
+          <option value="10">October (NE Monsoon / Rabi Sowing)</option>
+          <option value="11">November (NE Monsoon Receding)</option>
+          <option value="12">December (Puncha Sowing / Winter Start)</option>
+        </select>
+        <button id="dsRefreshBtn" class="btn" style="padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:12.5px">Evaluate Crops</button>
+      </div>
+    </div>
+
+    <!-- Six Crop Cards Grid -->
+    <div id="cropsCardsGrid" class="cards-grid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:14px;margin-bottom:16px">
+      <!-- Populated dynamically by dashboard.js -->
+    </div>
+
+    <!-- Comparative Table -->
+    <div class="card">
+      <div class="ct">
+        <span class="t"><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18M15 3v18"/></svg>Six-Crop Comparative Suitability Matrix</span>
+      </div>
+      <div class="tbl-wrap" style="overflow-x:auto;margin-top:10px">
+        <table class="tbl" id="cropsComparisonTable" style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="text-align:left;border-bottom:1px solid var(--border-color)">
+              <th style="padding:10px">Crop</th>
+              <th>Priority</th>
+              <th>Suitability Status</th>
+              <th>Water Need</th>
+              <th>Verified Requirement</th>
+              <th>Software Score</th>
+              <th>Uncertainty</th>
+              <th>Key Limitation / Note</th>
+            </tr>
+          </thead>
+          <tbody id="cropsTableBody">
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+      <div class="satellite-notice" style="margin-top:14px">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <div><b>Transparent Decision Disclaimer:</b> AGROVERSE does not declare any crop as guaranteed to succeed. Statuses denote empirical observational screening ("Suitable for further consideration", "Needs careful evaluation", "Potentially unsuitable"). Missing farm parameters must be verified locally.</div>
+      </div>
+    </div>
+   </section>
+
+   <!-- ================================================================
+        SECTION 9: WHAT-IF SCENARIO SIMULATOR
+        ================================================================ -->
+   <section id="section-what-if" class="dashboard-section">
+    <div class="head">
+     <div>
+      <h1>What-if Climate Scenario Simulator</h1>
+      <p>Sensitivity analysis: Test crop adaptability under hypothetical precipitation, heat, and dry spell shifts.</p>
+     </div>
+     <div class="pill">Sensitivity Analysis</div>
+    </div>
+
+    <!-- Interactive Simulation Controls -->
+    <div class="card" style="margin-bottom:14px">
+      <div class="ct">
+        <span class="t"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Hypothetical Scenario Parameters</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:16px;margin-top:14px">
+        <div>
+          <label style="font-size:12px;font-weight:600;display:block;margin-bottom:6px">Rainfall Change: <span id="valRainChange">-20%</span></label>
+          <input type="range" id="simRainSlider" min="-50" max="50" step="5" value="-20" style="width:100%">
+          <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--text-muted);margin-top:2px">
+            <span>-50% (Deficit)</span><span>0% (Baseline)</span><span>+50% (Excess)</span>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;display:block;margin-bottom:6px">Temperature Shift: <span id="valTempChange">+2.0 °C</span></label>
+          <input type="range" id="simTempSlider" min="-3" max="5" step="0.5" value="2.0" style="width:100%">
+          <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--text-muted);margin-top:2px">
+            <span>-3.0 °C</span><span>0.0 °C</span><span>+5.0 °C (Heat Stress)</span>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;display:block;margin-bottom:6px">Dry Spell Delta: <span id="valDryChange">+10 days</span></label>
+          <input type="range" id="simDrySlider" min="-10" max="30" step="2" value="10" style="width:100%">
+          <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--text-muted);margin-top:2px">
+            <span>-10 days</span><span>0 days</span><span>+30 days</span>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;display:block;margin-bottom:6px">Simulation Month:</label>
+          <select id="simMonthSelect" style="width:100%;padding:7px;border-radius:6px;border:1px solid var(--border-color);background:var(--bg-card);color:var(--text-main);font-size:12px">
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5" selected>May (Sowing Window)</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:16px;align-items:center">
+        <button id="btnRunSimulation" class="btn" style="padding:9px 20px;background:var(--primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px">Run Simulation</button>
+        <button id="btnResetSimulation" class="btn" style="padding:9px 18px;background:var(--bg-subtle, #f0f3f1);color:var(--text-main);border:1px solid var(--border-color);border-radius:8px;cursor:pointer;font-weight:600;font-size:13px">Reset to Baseline</button>
+        <span id="simStatusMsg" style="font-size:12px;color:var(--text-muted);margin-left:10px"></span>
+      </div>
+    </div>
+
+    <!-- Simulation Comparison Summary -->
+    <div class="card" style="margin-bottom:14px">
+      <div class="ct">
+        <span class="t"><svg viewBox="0 0 24 24"><path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v1"/><polyline points="18 8 22 12 18 16"/><line x1="6" y1="12" x2="22" y2="12"/></svg>Baseline vs. Scenario Climate Conditions</span>
+      </div>
+      <div id="simConditionsBar" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px;margin-top:10px">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+
+    <!-- Comparative Simulation Results Table -->
+    <div class="card">
+      <div class="ct">
+        <span class="t"><svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Scenario Crop Suitability Impact Assessment</span>
+      </div>
+      <div class="tbl-wrap" style="overflow-x:auto;margin-top:10px">
+        <table class="tbl" style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="text-align:left;border-bottom:1px solid var(--border-color)">
+              <th style="padding:10px">Crop</th>
+              <th>Baseline Status</th>
+              <th>Scenario Status</th>
+              <th>Shift Details</th>
+              <th>Score Impact</th>
+              <th>New Risks Triggered</th>
+              <th>Mitigated Risks</th>
+              <th>Explanation & Action</th>
+            </tr>
+          </thead>
+          <tbody id="simResultsTableBody">
+            <!-- Injected dynamically -->
+          </tbody>
+        </table>
+      </div>
+      <div class="satellite-notice" style="margin-top:14px">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <div><b>Sensitivity Modeling Boundary:</b> Soil moisture values are held at baseline observational levels and marked "Unchanged/Not Fabricated", in compliance with NASA scientific integrity standards. Monthly rainfall scaling does not model daily storm intensity distribution.</div>
+      </div>
+    </div>
+   </section>
+
+   <!-- ================================================================
+        SECTION 10: HISTORICAL CLIMATE INTELLIGENCE (MEMBER 3)
+        ================================================================ -->
+   <section id="section-climate-history" class="dashboard-section">
+    <div class="head">
+     <div>
+      <h1>Historical Climate & Extreme Events (2020–2025)</h1>
+      <p>Verified observational event logs from Member 3 handover analysis.</p>
+     </div>
+     <div class="pill">Empirical Event Registry</div>
+    </div>
+
+    <!-- Analytics Cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:14px;margin-bottom:14px">
+      <div class="card">
+        <div class="ct"><span class="t"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Top Extreme Rainfall Events</span></div>
+        <div id="topRainfallList" style="margin-top:10px;font-size:12px;line-height:1.8">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+      <div class="card">
+        <div class="ct"><span class="t"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Extended Dry Spells Registry</span></div>
+        <div id="dryPeriodsList" style="margin-top:10px;font-size:12px;line-height:1.8">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Integrated Risk Assessment Table -->
+    <div class="card">
+      <div class="ct">
+        <span class="t"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Member 3 Monthly Climate Risk Assessment Records</span>
+      </div>
+      <div class="tbl-wrap" style="overflow-x:auto;max-height:400px;overflow-y:auto;margin-top:10px">
+        <table class="tbl" style="width:100%;border-collapse:collapse;font-size:11.5px">
+          <thead>
+            <tr style="text-align:left;position:sticky;top:0;background:var(--bg-card);border-bottom:2px solid var(--border-color)">
+              <th style="padding:8px">Year-Month</th>
+              <th>Rainfall (mm)</th>
+              <th>Avg Temp (°C)</th>
+              <th>Longest Dry (days)</th>
+              <th>Dry 7+ Days?</th>
+              <th>Heavy Rain Month?</th>
+              <th>SMAP AM (cm³/cm³)</th>
+              <th>AM Low Moisture?</th>
+            </tr>
+          </thead>
+          <tbody id="riskAssessmentTableBody">
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+   </section>
+
+   <!-- ================================================================
+        SECTION 11: DATA QUALITY & SOURCE REGISTRY
+        ================================================================ -->
+   <section id="section-data-quality" class="dashboard-section">
+    <div class="head">
+     <div>
+      <h1>Data Transparency & Automated Quality Report</h1>
+      <p>Source registry, spatial coordinates, validation checks and limitations.</p>
+     </div>
+     <div class="pill">Validation Passed</div>
+    </div>
+
+    <!-- Spatial Locations Comparison -->
+    <div class="card" style="margin-bottom:14px">
+      <div class="ct"><span class="t"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Spatial Coordinate Discrepancy & Coverage Identification</span></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:12px;margin-top:10px;font-size:12px">
+        <div style="padding:12px;border:1px solid var(--border-color);border-radius:8px">
+          <b style="color:var(--primary)">1. Palakkad Demo Farm</b> (10.708° N, 76.639° E)
+          <p style="margin-top:6px;color:var(--text-muted)">Chittur-Kollengode Agricultural Corridor. Ground point for NASA POWER and SMAP grid extraction used in primary resilience dashboard.</p>
+        </div>
+        <div style="padding:12px;border:1px solid var(--border-color);border-radius:8px">
+          <b style="color:var(--text-main)">2. Palakkad Town / District Reference</b> (10.7867° N, 76.6548° E)
+          <p style="margin-top:6px;color:var(--text-muted)">Regional administrative centroid. Distinct spatial point (~11 km north-east); datasets are registered independently and not treated as identical field observations.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Source Registry Table -->
+    <div class="card" style="margin-bottom:14px">
+      <div class="ct"><span class="t"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Centralized Source Registry</span></div>
+      <div class="tbl-wrap" style="overflow-x:auto;margin-top:10px">
+        <table class="tbl" style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="text-align:left;border-bottom:1px solid var(--border-color)">
+              <th style="padding:8px">Dataset</th>
+              <th>Source</th>
+              <th>Coverage / Period</th>
+              <th>Resolution</th>
+              <th>Verification Status</th>
+              <th>Intended Use</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for s in source_registry %}
+            <tr style="border-bottom:1px solid var(--border-color)">
+              <td style="padding:8px;font-weight:600">{{ s.dataset_name }}</td>
+              <td>{{ s.source }}</td>
+              <td>{{ s.time_period }}</td>
+              <td>{{ s.resolution }}</td>
+              <td><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;background:rgba(63,155,91,0.15);color:#2d7a44">{{ s.verification_status }}</span></td>
+              <td>{{ s.intended_use }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Automated Quality Checks Report -->
+    <div class="card">
+      <div class="ct"><span class="t"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Automated Ingestion Validation Checks</span></div>
+      <div style="margin-top:10px;font-size:12.5px">
+        <p><b>Validation Status:</b> <span style="color:#2d7a44;font-weight:700">{{ quality_report.status }}</span> ({{ quality_report.passed_checks }} of {{ quality_report.total_checks }} integrity checks passed across {{ quality_report.datasets_validated }} datasets).</p>
+        <p style="margin-top:6px;color:var(--text-muted)">SMAP missing value flag (-9999) handled cleanly as null. Missing agronomic records preserved without coercion to zero.</p>
+      </div>
+    </div>
+   </section>
+
+  </main>
+ </div>
+</div>
+
+<!-- LEAFLET & SCRIPTS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  // Hydrated dataset injection
+  window.INITIAL_DATA = {
+    monthly: {{ monthly_data|tojson }},
+    soil: {{ soil_data|tojson }},
+    yearly: {{ yearly_data|tojson }},
+    seasonal: {{ seasonal_data|tojson }}
+  };
+
+  // Map Initialization
+  const farm = {{ farm|tojson }};
+  const map = L.map('map',{zoomControl:false,attributionControl:false}).setView(farm.center, farm.zoom);
+  const sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19});
+  const gibs = (id,lvl,ext)=>L.tileLayer(`https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${id}/default/GoogleMapsCompatible_Level${lvl}/{z}/{y}/{x}.${ext}`,{maxNativeZoom:lvl,opacity:.75});
+  const ndvi = gibs('MODIS_Terra_NDVI_8Day',9,'png');
+  const rain = gibs('IMERG_Precipitation_Rate',6,'png');
+  sat.addTo(map);
+  L.polygon(farm.polygon,{color:'#7ff5d8',weight:3,fillColor:'#7ff5d8',fillOpacity:.08}).addTo(map);
+  L.control.scale({imperial:false,position:'bottomleft'}).addTo(map);
+  let ov=null;
+  document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    if(ov){map.removeLayer(ov);ov=null}
+    if(b.dataset.l==='ndvi'){ov=ndvi.addTo(map)} if(b.dataset.l==='rain'){ov=rain.addTo(map)}
+  });
+  document.getElementById('fs').onclick=()=>{const m=document.getElementById('mw'); (document.fullscreenElement?document.exitFullscreen():m.requestFullscreen()); setTimeout(()=>map.invalidateSize(),300)};
+</script>
+<script src="{{ url_for('static', filename='dataService.js') }}"></script>
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>

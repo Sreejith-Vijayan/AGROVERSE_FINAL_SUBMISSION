@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "location": "Palakkad Town, Kerala, India",
+    "latitude": 10.7867,
+    "longitude": 76.6548,
+    "records": 6,
+    "data_provenance": "Derived from NASA POWER daily series (PRECTOTCORR, T2M). Rainfall and temperature fields are real API observations. No simulated fields in this summary."
+  },
+  "data": [
+    {
+      "year": 2020,
+      "rainfall_total_mm": 1803.53,
+      "temperature_avg_c": 24.61,
+      "rainy_days_count": 168,
+      "dry_days_count": 198,
+      "heavy_rain_days_count": 2,
+      "heat_days_count": 54
+    },
+    {
+      "year": 2021,
+      "rainfall_total_mm": 2116.47,
+      "temperature_avg_c": 23.82,
+      "rainy_days_count": 207,
+      "dry_days_count": 158,
+      "heavy_rain_days_count": 0,
+      "heat_days_count": 14
+    },
+    {
+      "year": 2022,
+      "rainfall_total_mm": 2035.82,
+      "temperature_avg_c": 23.83,
+      "rainy_days_count": 179,
+      "dry_days_count": 186,
+      "heavy_rain_days_count": 0,
+      "heat_days_count": 18
+    },
+    {
+      "year": 2023,
+      "rainfall_total_mm": 1582.17,
+      "temperature_avg_c": 24.4,
+      "rainy_days_count": 157,
+      "dry_days_count": 208,
+      "heavy_rain_days_count": 0,
+      "heat_days_count": 26
+    },
+    {
+      "year": 2024,
+      "rainfall_total_mm": 1804.17,
+      "temperature_avg_c": 24.89,
+      "rainy_days_count": 167,
+      "dry_days_count": 199,
+      "heavy_rain_days_count": 0,
+      "heat_days_count": 66
+    },
+    {
+      "year": 2025,
+      "rainfall_total_mm": 1667.53,
+      "temperature_avg_c": 24.16,
+      "rainy_days_count": 175,
+      "dry_days_count": 190,
+      "heavy_rain_days_count": 0,
+      "heat_days_count": 15
+    }
+  ]
+}
