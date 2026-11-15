@@ -23,6 +23,11 @@ def client():
     with app.test_client() as client:
         yield client
 
+def test_health_check(client):
+    res = client.get("/healthz")
+    assert res.status_code == 200
+    assert res.get_json() == {"status": "ok"}
+
 # ----------------- 1. Data Validation Tests -----------------
 def test_data_validation():
     loader = DataLoader()

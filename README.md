@@ -99,6 +99,19 @@ python app.py
 ```
 Open [http://localhost:5000](http://localhost:5000) in your web browser.
 
+### Deploying to Render
+
+This repository includes a Render Blueprint in `render.yaml`. In Render, choose
+**New + → Blueprint**, connect this repository, and apply the `agroverse` web
+service. Render installs `requirements.txt` and starts the app with Gunicorn
+bound to Render's assigned port. The `/healthz` endpoint is used for health
+checks.
+
+The app's datasets are included in the repository. Render's filesystem is
+ephemeral, so the optional NASA POWER response cache may be recreated after a
+restart; if the upstream service is unavailable, the dashboard uses its
+documented demo-data fallback.
+
 ---
 
 ## 6. Scientific Transparency & Disclaimers

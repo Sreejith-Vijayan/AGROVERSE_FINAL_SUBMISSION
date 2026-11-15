@@ -380,6 +380,11 @@ def api_ds_compare_scenarios():
 # MAIN DASHBOARD VIEW
 # ====================================================================
 
+@app.route("/healthz")
+def health_check():
+    return jsonify({"status": "ok"})
+
+
 @app.route("/")
 def overview():
     df, source = data_source.get_series(data.FARM["lat"], data.FARM["lon"])
