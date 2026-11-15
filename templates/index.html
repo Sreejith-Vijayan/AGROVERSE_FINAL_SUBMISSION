@@ -20,8 +20,13 @@
  <!-- SIDEBAR -->
  <aside class="side">
   <div class="brand">
-   <div class="logo">{{ leaf(26) }}<b>AGROVERSE</b></div>
-   <small>NASA Space Apps 2026</small>
+   <div class="logo">
+    {{ leaf(26) }}
+    <div class="brand-text">
+     <b>AGROVERSE</b>
+     <small>NASA Space Apps 2026</small>
+    </div>
+   </div>
   </div>
   <nav class="nav">
    <a class="on" href="#overview" data-section="overview">
@@ -71,7 +76,10 @@
   </nav>
   <div class="field">
     <div class="palms"><i style="height:44px"></i><i style="height:30px"></i><i style="height:52px"></i><i style="height:36px"></i><i style="height:48px"></i></div>
-    <p>Smarter Farming.<br>A Resilient Tomorrow.</p>
+    <div class="tagline-block">
+      <p class="tagline-main">Smarter Farming.<br>A Resilient Tomorrow.</p>
+      <span class="tagline-author">by FORZA Group</span>
+    </div>
   </div>
  </aside>
 
@@ -91,10 +99,10 @@
      <svg class="select-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </div>
    </div>
-   <div class="loc">
+   <a href="#overview" id="locationLink" class="loc loc-interactive-link" title="Click to view interactive full-screen map and satellite observations">
      <svg viewBox="0 0 24 24"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
-     {{ farm.place }}
-   </div>
+     <span>{{ farm.place }}</span>
+   </a>
    <div class="sp"></div>
    <form class="rng" method="get" action="/">
     <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
@@ -102,7 +110,6 @@
     <label>To <input type="date" name="end" value="{{ end_val }}" min="{{ min_date }}" max="{{ max_date }}"></label>
     <button type="submit">Explore</button>
    </form>
-   <div class="avatar" title="Agricultural Specialist">AS</div>
   </header>
 
   <!-- CONTENT PANELS -->
@@ -590,18 +597,18 @@
       <div class="ct">
         <span class="t"><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18M15 3v18"/></svg>Six-Crop Comparative Suitability Matrix</span>
       </div>
-      <div class="tbl-wrap" style="overflow-x:auto;margin-top:10px">
-        <table class="tbl" id="cropsComparisonTable" style="width:100%;border-collapse:collapse;font-size:12px">
+      <div class="tbl-wrap" style="overflow-x:auto;margin-top:12px">
+        <table class="tbl crop-decision-tbl" id="cropsComparisonTable">
           <thead>
-            <tr style="text-align:left;border-bottom:1px solid var(--border-color)">
-              <th style="padding:10px">Crop</th>
-              <th>Priority</th>
-              <th>Suitability Status</th>
-              <th>Water Need</th>
-              <th>Verified Requirement</th>
-              <th>Software Score</th>
-              <th>Uncertainty</th>
-              <th>Key Limitation / Note</th>
+            <tr>
+              <th class="col-crop">Crop</th>
+              <th class="col-priority">Priority</th>
+              <th class="col-status">Suitability Status</th>
+              <th class="col-water">Water Need</th>
+              <th class="col-req">Verified Requirement</th>
+              <th class="col-score">Software Score</th>
+              <th class="col-uncertainty">Uncertainty</th>
+              <th class="col-limitation">Key Limitation / Note</th>
             </tr>
           </thead>
           <tbody id="cropsTableBody">
@@ -755,18 +762,18 @@
       <div class="ct">
         <span class="t"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Member 3 Monthly Climate Risk Assessment Records</span>
       </div>
-      <div class="tbl-wrap" style="overflow-x:auto;max-height:400px;overflow-y:auto;margin-top:10px">
-        <table class="tbl" style="width:100%;border-collapse:collapse;font-size:11.5px">
+      <div class="tbl-wrap" style="overflow-x:auto;max-height:420px;overflow-y:auto;margin-top:12px;border:1px solid var(--border-color);border-radius:8px">
+        <table class="tbl historical-climate-tbl" id="riskAssessmentTable">
           <thead>
-            <tr style="text-align:left;position:sticky;top:0;background:var(--bg-card);border-bottom:2px solid var(--border-color)">
-              <th style="padding:8px">Year-Month</th>
-              <th>Rainfall (mm)</th>
-              <th>Avg Temp (°C)</th>
-              <th>Longest Dry (days)</th>
-              <th>Dry 7+ Days?</th>
-              <th>Heavy Rain Month?</th>
-              <th>SMAP AM (cm³/cm³)</th>
-              <th>AM Low Moisture?</th>
+            <tr>
+              <th class="col-ym">Year-Month</th>
+              <th class="col-rain">Rainfall (mm)</th>
+              <th class="col-temp">Avg Temp (°C)</th>
+              <th class="col-dry">Longest Dry (days)</th>
+              <th class="col-dry7">Dry 7+ Days?</th>
+              <th class="col-heavy">Heavy Rain Month?</th>
+              <th class="col-smap">SMAP AM (cm³/cm³)</th>
+              <th class="col-am-low">AM Low Moisture?</th>
             </tr>
           </thead>
           <tbody id="riskAssessmentTableBody">
@@ -807,27 +814,27 @@
     <!-- Source Registry Table -->
     <div class="card" style="margin-bottom:14px">
       <div class="ct"><span class="t"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Centralized Source Registry</span></div>
-      <div class="tbl-wrap" style="overflow-x:auto;margin-top:10px">
-        <table class="tbl" style="width:100%;border-collapse:collapse;font-size:12px">
+      <div class="tbl-wrap" style="overflow-x:auto;margin-top:12px;border:1px solid var(--border-color);border-radius:8px">
+        <table class="tbl source-registry-tbl" id="sourceRegistryTable">
           <thead>
-            <tr style="text-align:left;border-bottom:1px solid var(--border-color)">
-              <th style="padding:8px">Dataset</th>
-              <th>Source</th>
-              <th>Coverage / Period</th>
-              <th>Resolution</th>
-              <th>Verification Status</th>
-              <th>Intended Use</th>
+            <tr>
+              <th class="col-dataset">Dataset</th>
+              <th class="col-source">Source</th>
+              <th class="col-coverage">Coverage / Period</th>
+              <th class="col-resolution">Resolution</th>
+              <th class="col-verification">Verification Status</th>
+              <th class="col-use">Intended Use</th>
             </tr>
           </thead>
           <tbody>
             {% for s in source_registry %}
-            <tr style="border-bottom:1px solid var(--border-color)">
-              <td style="padding:8px;font-weight:600">{{ s.dataset_name }}</td>
-              <td>{{ s.source }}</td>
-              <td>{{ s.time_period }}</td>
-              <td>{{ s.resolution }}</td>
-              <td><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;background:rgba(63,155,91,0.15);color:#2d7a44">{{ s.verification_status }}</span></td>
-              <td>{{ s.intended_use }}</td>
+            <tr class="source-registry-row">
+              <td class="col-dataset"><div class="dataset-title">{{ s.dataset_name }}</div></td>
+              <td class="col-source"><div class="source-desc">{{ s.source }}</div></td>
+              <td class="col-coverage"><span class="coverage-badge">{{ s.time_period }}</span></td>
+              <td class="col-resolution"><div class="resolution-text">{{ s.resolution }}</div></td>
+              <td class="col-verification"><span class="verification-pill">{{ s.verification_status }}</span></td>
+              <td class="col-use"><div class="intended-use-text">{{ s.intended_use }}</div></td>
             </tr>
             {% endfor %}
           </tbody>
@@ -876,7 +883,29 @@
     if(ov){map.removeLayer(ov);ov=null}
     if(b.dataset.l==='ndvi'){ov=ndvi.addTo(map)} if(b.dataset.l==='rain'){ov=rain.addTo(map)}
   });
+  window.map = map;
   document.getElementById('fs').onclick=()=>{const m=document.getElementById('mw'); (document.fullscreenElement?document.exitFullscreen():m.requestFullscreen()); setTimeout(()=>map.invalidateSize(),300)};
+  const locBtn = document.getElementById('locationLink');
+  if (locBtn) {
+    locBtn.onclick = (e) => {
+      e.preventDefault();
+      const ovTab = document.querySelector('.nav a[data-section="overview"]');
+      if (ovTab) ovTab.click();
+      const m = document.getElementById('mw');
+      if (m) {
+        m.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => {
+          if (!document.fullscreenElement && m.requestFullscreen) {
+            m.requestFullscreen().catch(() => {});
+          }
+          setTimeout(() => map.invalidateSize(), 300);
+        }, 150);
+      }
+    };
+  }
+  document.addEventListener('fullscreenchange', () => {
+    setTimeout(() => map.invalidateSize(), 200);
+  });
 </script>
 <script src="{{ url_for('static', filename='dataService.js') }}"></script>
 <script src="{{ url_for('static', filename='dashboard.js') }}"></script>

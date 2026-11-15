@@ -833,15 +833,15 @@
       const waterVal = c.water_requirement_info ? `${c.water_requirement_info.crop_water_requirement_value} ${c.water_requirement_info.unit}` : 'N/A';
       const limitation = c.risk_factors.length ? c.risk_factors[0] : (c.supporting_factors[0] || 'Standard monitoring');
       return `
-        <tr style="border-bottom:1px solid var(--border-color)">
-          <td style="padding:10px;font-weight:700">${c.crop_name}</td>
-          <td><span style="font-size:11px;font-weight:600;color:var(--text-muted)">${c.priority}</span></td>
-          <td>${getStatusBadge(c.suitability_status)}</td>
-          <td><span style="text-transform:capitalize">${c.water_requirement_info.water_requirement_category || 'moderate'}</span></td>
-          <td>${waterVal}</td>
-          <td><b>${c.comparative_score}</b> <small>/ 100</small></td>
-          <td><span style="font-size:11px">${c.uncertainty_level}</span></td>
-          <td style="max-width:240px;color:var(--text-muted)">${limitation}</td>
+        <tr class="crop-entry-row">
+          <td class="col-crop"><span class="crop-name-label">${c.crop_name}</span></td>
+          <td class="col-priority"><span class="priority-chip">${c.priority}</span></td>
+          <td class="col-status">${getStatusBadge(c.suitability_status)}</td>
+          <td class="col-water"><span class="water-cat-tag">${c.water_requirement_info.water_requirement_category || 'moderate'}</span></td>
+          <td class="col-req">${waterVal}</td>
+          <td class="col-score"><b>${c.comparative_score}</b> <small>/ 100</small></td>
+          <td class="col-uncertainty"><span class="uncertainty-tag">${c.uncertainty_level}</span></td>
+          <td class="col-limitation">${limitation}</td>
         </tr>
       `;
     }).join('');
@@ -1026,15 +1026,15 @@
       if (riskRes && riskRes.risk_assessment && riskRes.risk_assessment.data) {
         const rows = riskRes.risk_assessment.data;
         riskTbody.innerHTML = rows.map(r => `
-          <tr style="border-bottom:1px solid var(--border-color)">
-            <td style="padding:6px 8px;font-weight:600">${r.year}-${String(r.month).padStart(2, '0')}</td>
-            <td>${parseFloat(r.rainfall_mm).toFixed(1)}</td>
-            <td>${parseFloat(r.average_temperature_c).toFixed(1)}</td>
-            <td>${r.longest_dry_spell_days}</td>
-            <td>${r.dry_spell_7plus_days === 'True' ? '<span style="color:#b3241d;font-weight:700">Yes (7+ d)</span>' : '<span style="color:#2d7a44">No</span>'}</td>
-            <td>${r.heavy_rain_month_indicator === 'True' ? '<span style="color:#3a86c8;font-weight:700">Heavy</span>' : '<span style="color:var(--text-muted)">Normal</span>'}</td>
-            <td>${r.AM_mean ? parseFloat(r.AM_mean).toFixed(3) : '<span style="color:var(--text-muted)">null</span>'}</td>
-            <td>${r.AM_low_soil_moisture_relative === 'True' ? '<span style="color:#e0912c;font-weight:600">Low</span>' : '<span>Normal</span>'}</td>
+          <tr class="historical-row">
+            <td class="col-ym">${r.year}-${String(r.month).padStart(2, '0')}</td>
+            <td class="col-rain">${parseFloat(r.rainfall_mm).toFixed(1)}</td>
+            <td class="col-temp">${parseFloat(r.average_temperature_c).toFixed(1)}</td>
+            <td class="col-dry">${r.longest_dry_spell_days}</td>
+            <td class="col-dry7">${r.dry_spell_7plus_days === 'True' ? '<span class="tag-alert-red">Yes (7+ d)</span>' : '<span class="tag-status-green">No</span>'}</td>
+            <td class="col-heavy">${r.heavy_rain_month_indicator === 'True' ? '<span class="tag-alert-blue">Heavy</span>' : '<span class="tag-status-muted">Normal</span>'}</td>
+            <td class="col-smap">${r.AM_mean ? parseFloat(r.AM_mean).toFixed(3) : '<span class="tag-status-muted">null</span>'}</td>
+            <td class="col-am-low">${r.AM_low_soil_moisture_relative === 'True' ? '<span class="tag-alert-amber">Low</span>' : '<span>Normal</span>'}</td>
           </tr>
         `).join('');
       }
