@@ -83,8 +83,8 @@ All six crops are evaluated using regional agricultural knowledge base profiles 
 
 ### Installation
 ```bash
-git clone https://github.com/Sreejith-Vijayan/agroverse.git
-cd agroverse
+git clone https://github.com/Sreejith-Vijayan/AGROVERSE_FINAL_SUBMISSION.git
+cd AGROVERSE_FINAL_SUBMISSION
 python -m pip install -r requirements.txt
 ```
 
