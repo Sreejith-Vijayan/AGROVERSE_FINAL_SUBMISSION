@@ -1,227 +1,440 @@
-# AGROVERSE M5 — Final Submission Readiness Audit
+# AGROVERSE — Final Submission Technical Audit
 
 **Audit Date:** November 15, 2026  
-**Auditor:** Senior QA Engineer, Flask Developer & NASA Space Apps Reviewer  
-**Project Location:** `C:\Users\sreer\Music\NASA\Testing\M5`  
+**Project:** AGROVERSE — NASA Data-Driven Agricultural Decision Support System  
 **Target Challenge:** NASA Space Apps Challenge 2026 — *Field Shift: Adapting Farms with NASA Data*  
-**Target Site:** Palakkad Demo Farm, Chittur-Kollengode Agricultural Corridor, Kerala, India (`10.7080° N, 76.6390° E`)
+**Target Site:** Palakkad Demo Farm, Chittur-Kollengode Agricultural Corridor, Kerala, India  
+**Coordinates:** 10.7080° N, 76.6390° E
 
 ---
 
 ## 1. Overall Submission Readiness
 
-### **Status: READY WITH LIMITATIONS**
+### Status: READY WITH LIMITATIONS
 
-The project has achieved complete technical and scientific stability. All 8 integration and unit tests pass in 0.91 seconds. All 19 API endpoints (both original M2 endpoints and new decision support/simulator endpoints) return verified HTTP status codes, properly structured JSON payloads, and robust HTTP 400/404 error responses for invalid inputs. The Flask dashboard renders completely (109 kB HTML) with valid JavaScript, inline SVG charts, and interactive Leaflet mapping. 
+The project has achieved technical and scientific stability based on the recorded final verification results.
 
-The label **READY WITH LIMITATIONS** is assigned in adherence to strict scientific honesty: coarse-resolution satellite observations (~36 km SMAP, 0.5° NASA POWER) and missing in-situ crop-stage thermal thresholds are properly documented as regional context rather than over-claimed as farm-level truth.
+The verification included:
+
+- 8 integration and unit tests, all passing.
+- 19 primary API endpoint and input-validation checks.
+- Flask dashboard rendering and static JavaScript syntax validation.
+- Six-crop suitability assessment.
+- What-If scenario simulation and comparison.
+- NASA data provenance and scientific integrity checks.
+- Automated data validation covering 157 checks.
+
+The project is classified as **READY WITH LIMITATIONS** to maintain scientific transparency.
+
+NASA POWER and SMAP provide regional-scale observations rather than farm-level measurements. The approximate 36 km SMAP resolution, 0.5° NASA POWER resolution, and absence of variety-specific crop-stage thermal thresholds limit the precision of farm-level recommendations.
+
+These limitations are documented rather than presented as verified farm-level predictions.
 
 ---
 
 ## 2. Flask Application Startup
 
 - **Startup Command:** `python app.py`
-- **WSGI Framework:** Flask 3.0+ on Python 3.11.9
-- **Host / Port:** `http://0.0.0.0:5000` (Local access: `http://127.0.0.1:5000`)
-- **Runtime Dependencies:** `Flask`, `pandas`, `numpy`, `gunicorn`, `pytest`, `requests` — all satisfied.
-- **Import / Runtime Integrity:**
-  - `app.py` imports without errors.
-  - No missing dependencies.
-  - Zero unhandled runtime exceptions during module initialization or server startup.
-- **Verification Status:** **PASS**
+- **Framework:** Flask 3.0+
+- **Python Version:** Python 3.11.9
+- **Host:** `0.0.0.0`
+- **Port:** `5000`
+- **Local URL:** `http://127.0.0.1:5000`
+
+### Runtime Dependencies
+
+The application uses the following primary dependencies:
+
+- Flask
+- pandas
+- numpy
+- gunicorn
+- pytest
+- requests
+
+### Import and Runtime Integrity
+
+The recorded verification confirmed:
+
+- `app.py` imports without errors.
+- Required dependencies were available in the tested environment.
+- No unhandled runtime exceptions occurred during module initialization or server startup.
+
+**Verification Status: PASS**
 
 ---
 
 ## 3. Dashboard and UI Verification
 
-- **Visual / Automated Testing Method:**
-  - Complete WSGI test client rendering and HTTP response validation (`GET /` returns HTTP 200, 109,286 bytes).
-  - JavaScript syntax compilation via Node.js syntax checker (`node -c static/dashboard.js`, `node -c static/dataService.js` — 0 syntax errors).
-  - Static asset linking and Leaflet CSS/JS bundle integrity confirmed.
-  - *Note on Browser Automation:* Direct live browser driving via DevTools was restricted by the local execution environment's network isolation boundary; comprehensive WSGI and static syntax verification was performed in lieu of interactive headless browser driving.
-- **Section Verification Checklist:**
-  - Overview Dashboard (`#section-overview`): **PASS** (KPI cards, mini sparkbars, Leaflet demo farm map bind)
-  - Climate Dashboard (`#section-climate`): **PASS** (Historical NASA POWER trends)
-  - Soil Properties (`#section-soil`): **PASS** (Provisional pH, clay content, SOC cards)
-  - SMAP Soil Moisture (`#section-smap`): **PASS** (Actual Member 3 monthly satellite curves, cloud gap alert)
-  - Climate Trends & Seasonal (`#section-trends`): **PASS** (Yearly bar charts & seasonal breakdown cards)
-  - Risk Indicators (`#section-risks`): **PASS** (Dynamic metrics derived from verified data, hardcoded 193/11010 fallbacks removed)
-  - Rotation Strategy (`#section-rotations`): **PASS** (Rice-Groundnut, Banana-Vegetables, Tapioca-Pulse rotations)
-  - Crop Decision Support (`#section-decision-support`): **PASS** (All 6 mandated crops rendered)
-  - What-If Scenario Simulator (`#section-what-if`): **PASS** (Interactive sliders, parameter deltas, comparative diff table)
-  - Historical Climate Logs (`#section-climate-history`): **PASS** (Member 3 extreme rainfall and dry spell event tables)
-  - Data Quality & Sources (`#section-data-quality`): **PASS** (Automated validation report, spatial coordinate notes)
-- **UI Labeling & Presentation:**
-  - Removed misleading claims: `"Optimal Observation Level"` and `"High-Confidence Months"` replaced with descriptive regional coverage context.
-  - 35°C days and heavy rainfall thresholds labeled as observational indicators, not flood/stress guarantees.
-- **Verification Status:** **PASS**
+### Testing Methods
+
+The following verification methods were used:
+
+- Flask WSGI test client rendering and HTTP response validation.
+- Main dashboard response validation (`GET /` returned HTTP 200).
+- HTML response size: 109,286 bytes.
+- JavaScript syntax validation using Node.js:
+  - `node -c static/dashboard.js`
+  - `node -c static/dataService.js`
+- Static asset linking verification.
+- Leaflet CSS and JavaScript bundle integrity checks.
+
+**Browser Automation Limitation:** Direct live browser interaction through DevTools was restricted by the local execution environment's network isolation. WSGI response validation and static JavaScript syntax verification were performed instead.
+
+### Section Verification Checklist
+
+| Dashboard Section | Verification |
+|---|---|
+| Overview Dashboard | PASS |
+| Climate Dashboard | PASS |
+| Soil Properties | PASS |
+| SMAP Soil Moisture | PASS |
+| Climate Trends & Seasonal | PASS |
+| Risk Indicators | PASS |
+| Rotation Strategy | PASS |
+| Crop Decision Support | PASS |
+| What-If Scenario Simulator | PASS |
+| Historical Climate Logs | PASS |
+| Data Quality & Sources | PASS |
+
+### UI Verification Details
+
+- Overview Dashboard: KPI cards, mini sparkbars and Leaflet demo farm map.
+- Climate Dashboard: Historical NASA POWER climate trends.
+- Soil Properties: Provisional pH, clay content and soil organic carbon cards.
+- SMAP Soil Moisture: Member 3 monthly satellite observations and cloud-gap alert.
+- Climate Trends: Yearly bar charts and seasonal breakdown cards.
+- Risk Indicators: Dynamic metrics derived from available data.
+- Rotation Strategy: Rice–Groundnut, Banana–Vegetables and Tapioca–Pulse rotations.
+- Crop Decision Support: All six supported crops.
+- What-If Simulator: Interactive sliders, parameter changes and comparison table.
+- Historical Climate Logs: Rainfall extremes, temperature and dry-spell records.
+- Data Quality & Sources: Automated validation report and spatial coordinate information.
+
+### UI Labeling and Scientific Presentation
+
+Misleading labels such as "Optimal Observation Level" and "High-Confidence Months" were replaced with descriptive regional coverage information.
+
+The 35°C day and heavy rainfall indicators are presented as observational indicators, not guaranteed flood or crop-stress predictions.
+
+**Verification Status: PASS**
 
 ---
 
-## 4. API Endpoint Verification Table
+## 4. API Endpoint Verification
 
-Tested across all 19 primary routes and input variants:
+The recorded API verification covered 19 primary routes and input-validation scenarios.
 
-| Method | Endpoint | Expected | Actual | Payload / Query | Result |
-|---|---|---|---|---|---|
-| `GET` | `/` | 200 | 200 | N/A (Main Dashboard HTML) | **PASS** |
-| `GET` | `/api/decision-support/overview` | 200 | 200 | Spatial metadata, sources, 6 crops catalog | **PASS** |
-| `GET` | `/api/decision-support/crops` | 200 | 200 | Full profiles, calendars, water reqs, sensitivities | **PASS** |
-| `GET` | `/api/decision-support/suitability` | 200 | 200 | `?month=5` (All 6 crops evaluated) | **PASS** |
-| `GET` | `/api/decision-support/suitability/rice` | 200 | 200 | `?month=5` (Single crop: rice) | **PASS** |
-| `GET` | `/api/decision-support/climate-history` | 200 | 200 | Member 3 rainfall, temp, extreme days, dry spells | **PASS** |
-| `GET` | `/api/decision-support/risk-assessment` | 200 | 200 | 72 monthly risk rows with empirical thresholds | **PASS** |
-| `GET` | `/api/decision-support/data-quality` | 200 | 200 | 157 passed automated validation checks | **PASS** |
-| `GET` | `/api/monthly` | 200 | 200 | 72 monthly handover climate & SMAP records | **PASS** |
-| `GET` | `/api/soil` | 200 | 200 | Static soil physical properties (clay, pH, SOC) | **PASS** |
-| `GET` | `/api/yearly` | 200 | 200 | 6 yearly climate summary records (2020–2025) | **PASS** |
-| `GET` | `/api/seasonal` | 200 | 200 | 24 seasonal climate summary records | **PASS** |
-| `GET` | `/api/smap-daily` | 200 | 200 | Daily cleaned SMAP proxy series (2,192 records) | **PASS** |
-| `GET` | `/api/decision-support/suitability` | 400 | 400 | `?month=13` (Out of bounds month validation) | **PASS** |
-| `GET` | `/api/decision-support/suitability/wheat` | 404 | 404 | `?month=5` (Unsupported crop validation) | **PASS** |
-| `POST` | `/api/decision-support/simulate` | 200 | 200 | `{"rainfall_pct_change": -20.0, ...}` | **PASS** |
-| `POST` | `/api/decision-support/simulate` | 400 | 400 | `{"target_month": 15}` (Invalid parameter validation) | **PASS** |
-| `POST` | `/api/decision-support/compare-scenarios` | 200 | 200 | `{"scenarios": [{"name": "Drought", ...}, ...]}` | **PASS** |
-| `POST` | `/api/decision-support/compare-scenarios` | 400 | 400 | `{"scenarios": []}` (Empty scenario list validation) | **PASS** |
+| Method | Endpoint | Expected | Actual | Description | Result |
+|---|---|---:|---:|---|---|
+| GET | `/` | 200 | 200 | Main Dashboard HTML | PASS |
+| GET | `/api/decision-support/overview` | 200 | 200 | Spatial metadata, sources and six-crop catalog | PASS |
+| GET | `/api/decision-support/crops` | 200 | 200 | Crop profiles, calendars, water requirements and sensitivities | PASS |
+| GET | `/api/decision-support/suitability` | 200 | 200 | All six crops evaluated for May | PASS |
+| GET | `/api/decision-support/suitability/rice` | 200 | 200 | Individual rice suitability evaluation | PASS |
+| GET | `/api/decision-support/climate-history` | 200 | 200 | Historical climate observations | PASS |
+| GET | `/api/decision-support/risk-assessment` | 200 | 200 | 72 monthly risk records | PASS |
+| GET | `/api/decision-support/data-quality` | 200 | 200 | 157 automated validation checks | PASS |
+| GET | `/api/monthly` | 200 | 200 | 72 monthly climate and SMAP records | PASS |
+| GET | `/api/soil` | 200 | 200 | Soil physical properties | PASS |
+| GET | `/api/yearly` | 200 | 200 | Six yearly climate summaries (2020–2025) | PASS |
+| GET | `/api/seasonal` | 200 | 200 | 24 seasonal climate summaries | PASS |
+| GET | `/api/smap-daily` | 200 | 200 | 2,192 daily proxy records | PASS |
+| GET | `/api/decision-support/suitability` | 400 | 400 | Invalid month (`month=13`) | PASS |
+| GET | `/api/decision-support/suitability/wheat` | 404 | 404 | Unsupported crop | PASS |
+| POST | `/api/decision-support/simulate` | 200 | 200 | Valid scenario simulation | PASS |
+| POST | `/api/decision-support/simulate` | 400 | 400 | Invalid target month | PASS |
+| POST | `/api/decision-support/compare-scenarios` | 200 | 200 | Multiple named scenarios | PASS |
+| POST | `/api/decision-support/compare-scenarios` | 400 | 400 | Empty scenario list | PASS |
+
+**Verification Status: PASS**
 
 ---
 
 ## 5. Pytest Execution Results
 
-Command executed:
+**Command:**
+
 ```bash
 python -m pytest -v
 ```
 
-Output:
-```
+### Recorded Test Results
+
+```text
 ============================= test session starts =============================
-platform win32 -- Python 3.11.9, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\sreer\Music\NASA\Testing\M5\.venv\Scripts\python.exe
-cachedir: .pytest_cache
-rootdir: C:\Users\sreer\Music\NASA\Testing\M5
+
 collecting ... collected 8 items
 
-tests/test_agroverse_integration.py::test_data_validation PASSED         [ 12%]
-tests/test_agroverse_integration.py::test_crop_suitability_all_six_crops PASSED [ 25%]
-tests/test_agroverse_integration.py::test_scenario_simulator PASSED      [ 37%]
-tests/test_agroverse_integration.py::test_original_api_endpoints PASSED  [ 50%]
-tests/test_agroverse_integration.py::test_new_decision_support_endpoints PASSED [ 62%]
-tests/test_agroverse_integration.py::test_simulation_post_endpoint PASSED [ 75%]
-tests/test_agroverse_integration.py::test_compare_scenarios_post_endpoint PASSED [ 87%]
-tests/test_agroverse_integration.py::test_endpoint_input_validation PASSED [100%]
+tests/test_agroverse_integration.py::test_data_validation PASSED
+tests/test_agroverse_integration.py::test_crop_suitability_all_six_crops PASSED
+tests/test_agroverse_integration.py::test_scenario_simulator PASSED
+tests/test_agroverse_integration.py::test_original_api_endpoints PASSED
+tests/test_agroverse_integration.py::test_new_decision_support_endpoints PASSED
+tests/test_agroverse_integration.py::test_simulation_post_endpoint PASSED
+tests/test_agroverse_integration.py::test_compare_scenarios_post_endpoint PASSED
+tests/test_agroverse_integration.py::test_endpoint_input_validation PASSED
 
 ============================== 8 passed in 0.91s ==============================
 ```
 
-- **Total Tests:** 8
-- **Passed:** 8
-- **Failed:** 0
-- **Duration:** 0.91s
-- **Verification Status:** **PASS**
+### Test Summary
+
+| Metric | Result |
+|---|---:|
+| Total Tests | 8 |
+| Passed | 8 |
+| Failed | 0 |
+| Execution Time | 0.91 seconds |
+
+**Verification Status: PASS**
 
 ---
 
-## 6. Six-Crop Assessment Verification
+## 6. Six-Crop Suitability Assessment
 
-Evaluated via `CropSuitabilityEngine.evaluate_all_crops(target_month=5)` for seasonal baseline (May):
+The six-crop suitability assessment was evaluated using:
 
-| Crop ID | Crop Name | MVP Priority | Suitability Status | Score (0-100) | Phenological Alignment | Verification Status |
-|---|---|---|---|---|---|---|
-| `rice` | Rice | Core | Needs careful evaluation | 45.0 | Virippu (Sowing window: April–May) | `verified_numerical` |
-| `groundnut` | Groundnut | Core | Needs careful evaluation | 20.0 | Outside cycle (Rabi: Oct sowing, Jan–Feb harvest) | `verified_numerical` |
-| `banana` | Banana | Core | Needs careful evaluation | 45.0 | Variety-dependent (Planting window: May–June) | `verified_numerical` |
-| `coconut` | Coconut | Core | Suitable for further consideration | 60.0 | Perennial (Actively growing year-round; May planting window) | `verified_numerical` |
-| `tapioca` | Tapioca / Cassava | Core | Needs careful evaluation | 45.0 | Seasonal planting (April–May sowing window) | `verified_numerical` |
-| `sugarcane` | Sugarcane | Optional | Needs careful evaluation | 25.0 | Outside cycle (Dec–Jan sowing, Nov–Dec harvest) | `verified_numerical` |
+`CropSuitabilityEngine.evaluate_all_crops(target_month=5)`
 
-- **Agronomic Accuracy Verified:**
-  - Groundnut is **not** incorrectly shown as actively growing in May. In October, its status updates to reflect documented Rabi sowing.
-  - Coconut is correctly recognized as perennial (actively growing year-round) with its May–June window labeled as **"Planting window"**, not sowing. Perennial status avoids improper calendar penalties.
-  - Crop-cycle water requirements (e.g. 1250–1668 mm for rice; 600–800 L/palm/irrigation for coconut) are preserved with units and explicit notes that they are not directly comparable to a single month's rainfall.
-  - Qualitative sensitivities marked as `unknown` in the Member 4 KB (e.g. coconut excess rainfall/temperature) are treated as unestablished and route strictly to monitoring notes, never creating false risk penalties.
-- **Verification Status:** **PASS**
+The following results represent the recorded May seasonal baseline.
 
----
+| Crop | MVP Priority | Suitability Status | Score | Phenological Alignment |
+|---|---|---|---:|---|
+| Rice | Core | Needs careful evaluation | 45.0 | Virippu; April–May sowing |
+| Groundnut | Core | Needs careful evaluation | 20.0 | Outside cycle; October sowing |
+| Banana | Core | Needs careful evaluation | 45.0 | Variety-dependent; May–June planting |
+| Coconut | Core | Suitable for further consideration | 60.0 | Perennial; active year-round |
+| Tapioca / Cassava | Core | Needs careful evaluation | 45.0 | April–May seasonal planting |
+| Sugarcane | Optional | Needs careful evaluation | 25.0 | Outside cycle; December–January sowing |
 
-## 7. What-If Simulator Verification
+### Agronomic Accuracy Checks
 
-- **Isolated Sensitivity Modeling:** Evaluates percentage rainfall scaling and temperature/dry-spell deltas on isolated in-memory copies without mutating baseline observations.
-- **Elimination of Arbitrary Defaults:** Removed fallback constants (`100.0 mm`, `28.0 °C`, `5 days`). Baseline missing values remain `None` and report explicit availability flags.
-- **No Physical Fabrication:**
-  - Root-zone soil moisture is held at baseline with explicit disclaimers: *"Soil moisture is held at baseline; empirical satellite observations cannot be synthetically recalculated reliably."*
-  - Heavy-rain frequency indicator preserves empirical baseline frequency rather than applying hardcoded millimeter cutoffs to monthly totals.
-- **Input Bounds Validation:** Enforces valid ranges ($\Delta \text{rain} \in [-100\%, +300\%]$, $\Delta \text{temp} \in [-10, +15]^\circ\text{C}$, $\Delta \text{dry} \in [-60, +90] \text{ days}$, $\text{month} \in [1, 12]$) and returns `HTTP 400` with descriptive error lists on out-of-bounds input.
-- **Multi-Scenario Comparison:** Batch endpoint `/api/decision-support/compare-scenarios` cleanly evaluates multiple named user scenarios and produces structured score deltas and risk transitions.
-- **Verification Status:** **PASS**
+- Groundnut is not incorrectly presented as actively growing in May. Its status changes in October to reflect the documented Rabi sowing period.
+- Coconut is recognized as a perennial crop. Its May–June period is labeled as a planting window rather than a conventional sowing period.
+- Crop-cycle water requirements retain their original units and are not directly compared with single-month rainfall.
+- Qualitative sensitivities marked as `unknown` in the Member 4 knowledge base do not create unsupported risk penalties.
+- Crop suitability scores are treated as exploratory screening indicators rather than guaranteed yield predictions.
+
+**Verification Status: PASS**
 
 ---
 
-## 8. NASA Data Provenance & Scientific Integrity Review
+## 7. What-If Scenario Simulator Verification
+
+The What-If Simulator supports exploratory evaluation of changes in rainfall, temperature and dry-spell conditions.
+
+### Sensitivity Modeling
+
+- Percentage rainfall changes and temperature/dry-spell deltas are evaluated on isolated in-memory copies.
+- Baseline observations are not mutated during simulation.
+- Arbitrary fallback values (`100.0 mm`, `28.0 °C`, and `5 days`) were removed.
+- Missing baseline observations remain `None` and are accompanied by availability information.
+
+### Scientific Integrity
+
+- Root-zone soil moisture is held at its baseline value.
+- The simulator does not fabricate new satellite soil-moisture observations.
+- Heavy-rain frequency preserves empirical baseline frequency rather than applying unsupported thresholds to monthly totals.
+
+### Input Validation
+
+The simulator enforces the following recorded parameter ranges:
+
+| Parameter | Accepted Range |
+|---|---|
+| Rainfall change | -100% to +300% |
+| Temperature change | -10°C to +15°C |
+| Dry-spell change | -60 to +90 days |
+| Target month | 1 to 12 |
+
+Invalid inputs return HTTP 400 responses with descriptive validation errors.
+
+### Multi-Scenario Comparison
+
+The `/api/decision-support/compare-scenarios` endpoint evaluates multiple named scenarios and returns structured score differences and risk transitions.
+
+**Verification Status: PASS**
+
+---
+
+## 8. NASA Data Provenance and Scientific Integrity
 
 | Scientific Integrity Check | Status | Implementation Detail |
 |---|---|---|
-| **Distinguish Synthetic vs Genuine NASA Data** | **PASS** | Monthly SMAP records in `07_UI_HANDOVER` now ingest actual Member 3 satellite aggregations (`MEMBER_3_SMAP_OBSERVATION`). Secondary modeled fields (`rh`, `solar`, `wind`) and daily proxies are explicitly flagged as `SIMULATED` in JSON metadata and CSV schemas. |
-| **SMAP Resolution & Siting Disclaimer** | **PASS** | Mandatory notice displayed in the UI, API responses, and source registry: *"~36 km coarse grid cell; regional satellite context, not farm-level in-situ probe"*. Universal `0.22` adequacy threshold removed. |
-| **Historical Data vs Weather Forecast** | **PASS** | Clarified in headers, charts, and API schemas: historical NASA POWER observations represent 2020–2025 climate context; sensitivity simulator represents exploratory parameter sweeps, not meteorological forecasts. |
-| **Preservation of Sentinels (-9999 / null)** | **PASS** | `DataLoader._read_csv()` maps empty strings, `-9999`, and `-9999.0` to `None`. In `data_source.py`, `fillna(0)` removed; unobserved rainfall is preserved as `NaN` and aggregations track valid observation counts. Confirmed zero-rain days stay `0.0`. |
-| **Spatial Coordinate Provenance** | **PASS** | Distinct coordinates documented in `config.py` and `/api/decision-support/overview`: `10.7080° N, 76.6390° E` (Palakkad Demo Farm, Chittur-Kollengode corridor, NASA POWER extraction site) vs `10.7867° N, 76.6548° E` (Palakkad Town / District centroid). Neither was overwritten. |
-| **Crop Water Comparability** | **PASS** | Single-month rainfall is never claimed to satisfy full crop-cycle water demand. Coconut's volume-per-palm metric is accompanied by an explicit incompatibility note against millimeter rainfall. |
-| **Exploratory Scoring Disclaimer** | **PASS** | Comparative score (0–100) is explicitly defined in `CropSuitabilityResult.to_dict()` and `README.md` as an exploratory software screening index, not a guaranteed agronomic yield prediction. |
-| **Removal of Unjustified Verification Claims** | **PASS** | Blanket `"verified": True` tags removed from proxy datasets in handover JSON. Hardcoded fallback statistics (193 heat days, 11010 rainfall) removed from `dashboard.js`. Removed hardcoded "NASA POWER & SMAP Verified Data" banner in `app.py` in favor of dynamic `coverage_label` reflecting genuine vs demo/synthetic mode. Removed blanket "(KAU PoP / ICAR Source Verified)" string in `dashboard.js`. Replaced "Evaluating verified crop conditions" with neutral phrasing. |
-| **Simulated Daily SMAP Proxy Disclosure** | **PASS** | `/api/smap-daily` response metadata explicitly declares `data_type: "SIMULATED_DAILY_PROXY"` with warning that values are derived from NASA POWER GWETROOT and are not genuine daily satellite observations. Genuine monthly SMAP observations from Member 3 (`MEMBER_3_SMAP_OBSERVATION`) are strictly preserved. |
-| **Documentation Transparency (README.md)** | **PASS** | `/api/smap-daily` documented as simulated proxy; blanket calendar verification claims removed; Banana planting window discrepancy disclosed; non-comparable crop water units (cumulative mm depth vs L/palm/day) explicitly documented. |
+| Genuine vs simulated NASA data | PASS | Monthly SMAP records use actual Member 3 satellite aggregations. Secondary modeled fields and daily proxies are explicitly labeled as simulated. |
+| SMAP resolution disclosure | PASS | Approximate 36 km coarse-grid limitation is documented. |
+| Historical data vs forecast | PASS | NASA POWER observations are identified as historical 2020–2025 climate context. |
+| Missing-value preservation | PASS | Empty strings, `-9999` and `-9999.0` are mapped to missing values. Genuine zero-rain observations remain zero. |
+| Spatial coordinate provenance | PASS | Demo farm and Palakkad Town coordinates are maintained separately. |
+| Crop water comparability | PASS | Crop-cycle water requirements are not claimed to be satisfied by single-month rainfall. |
+| Exploratory suitability scoring | PASS | Scores are documented as software screening indices, not guaranteed agronomic predictions. |
+| Removal of unjustified verification claims | PASS | Unsupported blanket verification labels and hardcoded fallback statistics were removed. |
+| Daily SMAP proxy disclosure | PASS | Daily proxy API metadata identifies `SIMULATED_DAILY_PROXY`. |
+| Documentation transparency | PASS | README documents proxy data, crop-calendar discrepancies and water-unit differences. |
+
+### Important Data Provenance Details
+
+**SMAP Observations**
+
+Monthly SMAP observations from Member 3 are identified as:
+
+`MEMBER_3_SMAP_OBSERVATION`
+
+The data are presented as regional satellite context, not farm-level in-situ soil moisture measurements.
+
+**Simulated Daily Proxy**
+
+The `/api/smap-daily` endpoint identifies its data type as:
+
+`SIMULATED_DAILY_PROXY`
+
+These daily values are derived from NASA POWER GWETROOT and must not be interpreted as genuine daily SMAP satellite observations.
+
+**Spatial Coordinates**
+
+The project maintains two distinct locations:
+
+- Palakkad Demo Farm / Chittur-Kollengode corridor / NASA POWER extraction site: `10.7080° N, 76.6390° E`
+- Palakkad Town / District centroid: `10.7867° N, 76.6548° E`
+
+These coordinates are not treated as interchangeable.
+
+**Crop Water Requirements**
+
+Field-crop water requirements expressed in millimeters and coconut water requirements expressed in liters per palm per irrigation are retained in their native units. They are not directly compared.
+
+**Verification Status: PASS**
 
 ---
 
-## 9. Remaining Critical and Minor Issues
+## 9. Remaining Limitations and Known Issues
 
-### Critical Issues (Blockers): **NONE**
-All primary failure modes, schema mismatches, runtime exceptions, misleading claims, and scientific inaccuracies have been resolved.
+### Critical Issues
 
-### Minor Issues / Known Data Limitations:
-1. **Inherent Coarse Resolution of Satellite Products:** NASA POWER (0.5° × 0.625°) and SMAP (~36 km) cannot capture micro-topographical variations, farm-level soil compaction depths, or field-specific drainage ditches.
-2. **Growth-Stage Thermal Thresholds:** The Member 4 knowledge base provides qualitative high-temperature sensitivities but lacks variety-specific thermal degree day equations.
-3. **Secondary Meteorological Proxies:** Relative humidity, solar radiation, and wind speed in the handover JSON are empirical parametric models rather than direct station logs.
-4. **Banana Calendar Divergence:** Regional guidelines document conflicting planting windows (May–June/Sep–Oct vs year-round irrigated), requiring local field validation.
-5. **Crop Water Unit Dimensionality:** Field crops (depth in mm) vs Coconut (rate in L/palm/day) represent non-equivalent units; both are reported transparently in native units.
+No critical blockers were identified in the recorded final verification.
 
-All of the above are inherent characteristics of the source datasets and are explicitly disclosed to users.
+### Known Data and Scientific Limitations
 
----
+**1. Coarse Satellite Resolution**
 
-## 10. Exact Files Modified in Final Submission Corrections
+NASA POWER (approximately 0.5° × 0.625°) and SMAP (approximately 36 km) cannot represent all field-level variations, including micro-topography, soil compaction and local drainage conditions.
 
-1. [`app.py`](file:///C:/Users/sreer/Music/NASA/Testing/M5/app.py) — 
-   - Made overview banner conditional on actual data source (`NASA POWER Observational Series` when live, `DEMO / SIMULATED DATA` when fallback).
-   - Added `data_type: "SIMULATED_DAILY_PROXY"` and disclaimer to `/api/smap-daily` metadata.
-2. [`static/dashboard.js`](file:///C:/Users/sreer/Music/NASA/Testing/M5/static/dashboard.js) — 
-   - Replaced "Evaluating verified crop conditions..." with "Evaluating observed climate conditions and available crop knowledge...".
-   - Removed blanket claim "(KAU PoP / ICAR Source Verified)"; dynamically displays actual `c.verification_status` or "Source verification not established".
-3. [`templates/index.html`](file:///C:/Users/sreer/Music/NASA/Testing/M5/templates/index.html) — 
-   - Cleanly bound `{{ coverage_label }}` to header badge with `.warn` class for demo data.
-4. [`README.md`](file:///C:/Users/sreer/Music/NASA/Testing/M5/README.md) — 
-   - Documented `/api/smap-daily` as `SIMULATED_DAILY_PROXY`.
-   - Removed unsupported claims that all crop calendars are verified.
-   - Documented Banana calendar discrepancy and water requirement unit distinctions.
-5. [`decision_support/data_validator.py`](file:///C:/Users/sreer/Music/NASA/Testing/M5/decision_support/data_validator.py) — Automated validation across 157 checks.
-6. [`tests/test_agroverse_integration.py`](file:///C:/Users/sreer/Music/NASA/Testing/M5/tests/test_agroverse_integration.py) — Preserved 8 full integration tests including boundary input validations.
-7. [`FINAL_SUBMISSION_AUDIT.md`](file:///C:/Users/sreer/Music/NASA/Testing/M5/FINAL_SUBMISSION_AUDIT.md) — Updated with all final verification evidence and package details.
+**2. Growth-Stage Thermal Thresholds**
+
+The Member 4 knowledge base contains qualitative temperature sensitivities but does not provide complete variety-specific thermal degree-day equations.
+
+**3. Secondary Meteorological Proxies**
+
+Relative humidity, solar radiation and wind speed in the handover JSON are empirical parametric models rather than direct local weather-station observations.
+
+**4. Banana Crop Calendar**
+
+Regional guidelines contain differing planting-window recommendations, including May–June / September–October and year-round irrigated cultivation. Local validation is required.
+
+**5. Crop Water Unit Differences**
+
+Field-crop requirements are expressed as water depth in millimeters, whereas coconut requirements use liters per palm per day or irrigation. These measurements are not directly comparable.
+
+These limitations are disclosed to avoid presenting regional or modeled information as precise farm-level measurements.
 
 ---
 
-## 11. Final Recommended Actions Before Submission
+## 10. Major Files Modified During Final Corrections
 
-1. **Demonstration Screen Recording:**
-   - Launch application with `python app.py`.
-   - Open `http://localhost:5000`.
-   - Record walkthrough:
-     - Navigation across sections (Overview, Climate, SMAP, Trends, Risks).
-     - Decision Support Engine: select Month 5 (May) to highlight Coconut and Virippu Rice; select Month 10 (October) to show Groundnut Rabi sowing.
-     - What-If Simulator: drag rainfall to -25%, temperature to +2.0°C, dry spell to +10 days, and observe risk transitions.
-     - Click **Compare Pre-set Scenarios** to demonstrate multi-scenario evaluation.
-     - Scroll to Data Quality & Sources section to highlight automated validation (157 checks passed).
-2. **Submission Archive / Repository Push:**
-   - Confirm `.gitignore` ignores `.venv/`, `.pytest_cache/`, and `__pycache__/`.
-   - Verify `README.md` and `requirements.txt` are included at the root level.
-   - Attach this `FINAL_SUBMISSION_AUDIT.md` as the official technical audit report.
+The following files were included in the recorded final correction process:
 
+| File | Changes |
+|---|---|
+| `app.py` | Conditional data-source banner and simulated daily proxy metadata |
+| `static/dashboard.js` | Improved scientific labeling and dynamic crop verification status |
+| `templates/index.html` | Dynamic coverage label and demo-data warning presentation |
+| `README.md` | Data provenance, simulated proxy disclosure and crop-calendar documentation |
+| `decision_support/data_validator.py` | Automated data validation across 157 checks |
+| `tests/test_agroverse_integration.py` | Eight integration tests and input-boundary validation |
+| `FINAL_SUBMISSION_AUDIT.md` | Final verification evidence and documented limitations |
+
+---
+
+## 11. Recommended Demonstration Flow
+
+The following walkthrough is recommended for demonstrating the final application.
+
+### Step 1: Launch the Application
+
+```bash
+python app.py
+```
+
+Open:
+
+`http://localhost:5000`
+
+### Step 2: Dashboard Walkthrough
+
+Navigate through:
+
+- Overview
+- Climate
+- SMAP
+- Climate Trends
+- Risk Indicators
+
+Highlight the climate observations, soil information and data-source disclosures.
+
+### Step 3: Crop Decision Support
+
+Demonstrate the six supported crops.
+
+Suggested months:
+
+- **May (Month 5):** Highlight Coconut and Virippu Rice.
+- **October (Month 10):** Demonstrate Groundnut's documented Rabi sowing period.
+
+### Step 4: What-If Simulator
+
+Use example parameter changes:
+
+- Rainfall: -25%
+- Temperature: +2.0°C
+- Dry spell: +10 days
+
+Show how the simulator evaluates changes against the baseline.
+
+### Step 5: Scenario Comparison
+
+Click **Compare Pre-set Scenarios** to demonstrate multi-scenario evaluation.
+
+### Step 6: Data Quality and Sources
+
+Finish by showing the data-quality section, automated validation information and the scientific limitations of the underlying datasets.
+
+---
+
+## 12. Final Submission Checklist
+
+- [ ] Verify `.gitignore` excludes `.venv/`, `.pytest_cache/` and `__pycache__/`.
+- [ ] Ensure `README.md` is available at the repository root.
+- [ ] Ensure `requirements.txt` is available at the repository root.
+- [ ] Verify application startup using `python app.py`.
+- [ ] Verify all eight integration tests in the final environment.
+- [ ] Ensure Member 3 and Member 4 data files are included.
+- [ ] Ensure simulated data and regional satellite limitations are clearly disclosed.
+- [ ] Ensure all required frontend, backend and decision-support modules are included.
+- [ ] Confirm the final GitHub repository contains the intended submission files.
+
+---
+
+## Final Assessment
+
+**Overall Status: READY WITH LIMITATIONS**
+
+AGROVERSE integrates historical NASA climate observations, satellite-derived soil-moisture information, agricultural knowledge and an exploratory crop decision-support engine into a unified web application.
+
+The system includes six-crop suitability assessment, historical climate analysis, risk indicators, crop rotation information, a What-If simulator and multi-scenario comparison.
+
+Its scientific limitations are explicitly documented, particularly the coarse spatial resolution of satellite products, simulated secondary meteorological fields and the exploratory nature of crop suitability scoring.
+
+The recorded final verification results indicate successful application startup, eight passing tests, nineteen API verification scenarios and 157 automated data-validation checks.
+
+**AGROVERSE is prepared for final demonstration and submission, subject to the documented data limitations and final-environment verification.**
